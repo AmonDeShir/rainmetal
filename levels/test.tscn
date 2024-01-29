@@ -1,0 +1,155 @@
+[gd_scene load_steps=19 format=3 uid="uid://d3o0oyqg0q37c"]
+
+[ext_resource type="Environment" uid="uid://bwwf4qs2o52o0" path="res://env/playground_env.tres" id="1_6qvmc"]
+[ext_resource type="Script" path="res://plugins/pixel-art/scripts/spin.gd" id="1_u4633"]
+[ext_resource type="PackedScene" uid="uid://cnd7i1kucwpvq" path="res://plugins/pixel-art/models/icosphere.glb" id="3_ekm5x"]
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="5_f2d8h"]
+[ext_resource type="PackedScene" uid="uid://c3jbatf7w4fxn" path="res://models/ural-4320/ural4320.glb" id="6_tnx3w"]
+[ext_resource type="Script" path="res://scripts/camera/camera.gd" id="6_x23we"]
+[ext_resource type="Shader" path="res://plugins/pixel-art/outline.gdshader" id="7_sjtrq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xqpyn"]
+albedo_color = Color(0.117647, 0.737255, 0.45098, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1s8w4"]
+material = SubResource("StandardMaterial3D_xqpyn")
+size = Vector2(20, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qp00u"]
+albedo_color = Color(0.588235, 0.423529, 0.423529, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8smba"]
+material = SubResource("StandardMaterial3D_qp00u")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c3sws"]
+diffuse_mode = 3
+albedo_color = Color(0.658824, 0.517647, 0.952941, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_x030n"]
+material = SubResource("StandardMaterial3D_c3sws")
+top_radius = 0.75
+bottom_radius = 0.75
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3v0k5"]
+albedo_color = Color(0.941176, 0.309804, 0.470588, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4irvy"]
+albedo_color = Color(0.301961, 0.607843, 0.901961, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_ebc50"]
+material = SubResource("StandardMaterial3D_4irvy")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i6itp"]
+render_priority = 0
+shader = ExtResource("7_sjtrq")
+shader_parameter/depth_threshold = 0.05
+shader_parameter/reverse_depth_threshold = 0.25
+shader_parameter/normal_threshold = 0.6
+shader_parameter/darken_amount = 0.3
+shader_parameter/lighten_amount = 1.5
+shader_parameter/normal_edge_bias = Vector3(-1, -1, -1)
+shader_parameter/light_direction = Vector3(-0.883065, -0.441419, 0.159202)
+
+[sub_resource type="QuadMesh" id="QuadMesh_egxnj"]
+material = SubResource("ShaderMaterial_i6itp")
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="Main" type="Node3D"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(576, 324)
+render_target_update_mode = 4
+
+[node name="Level" type="Node3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/Level"]
+environment = ExtResource("1_6qvmc")
+
+[node name="Floor" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000314713, 0.000907898, -0.0157251)
+mesh = SubResource("PlaneMesh_1s8w4")
+
+[node name="Box" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Level"]
+transform = Transform3D(0.968583, 0, 0.24869, 0, 1, 0, -0.24869, 0, 0.968583, -0.163607, 0.460576, 2.60698)
+mesh = SubResource("BoxMesh_8smba")
+skeleton = NodePath("../../../..")
+
+[node name="Node3D" type="Node3D" parent="SubViewportContainer/SubViewport/Level"]
+transform = Transform3D(-0.175184, -0.433329, 0.871062, 0, 0.895055, 0.443336, -0.971711, 0.0781206, -0.157049, 0, 10, 0)
+script = ExtResource("1_u4633")
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Level/Node3D"]
+transform = Transform3D(-0.354036, -0.554892, 0.769732, 0.420655, 0.635356, 0.651498, -0.849263, 0.547029, 0.00371746, 5.14644e-06, -0.739403, -0.36783)
+light_color = Color(1, 0.827451, 0.607843, 1)
+light_energy = 1.7
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_normal_bias = 1.0
+directional_shadow_split_2 = 0.3
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 300.0
+
+[node name="AmbientLight" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Level/Node3D"]
+transform = Transform3D(-0.179701, 0.996715, -6.14904e-06, -0.441858, -0.07966, 0.896377, 0.892071, 0.160826, 0.445922, 5.4173e-06, -0.777304, -0.386685)
+light_energy = 0.1
+shadow_normal_bias = 1.0
+directional_shadow_split_2 = 0.3
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 300.0
+sky_mode = 1
+
+[node name="Cylinder" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.936269, 0)
+mesh = SubResource("CylinderMesh_x030n")
+
+[node name="icosphere" parent="SubViewportContainer/SubViewport/Level/Cylinder" instance=ExtResource("3_ekm5x")]
+transform = Transform3D(0.423644, 0, 0.246325, 0, 0.5, 0, -0.246325, 0, 0.423644, 0, 1.75302, 0)
+script = ExtResource("1_u4633")
+
+[node name="Icosphere" parent="SubViewportContainer/SubViewport/Level/Cylinder/icosphere" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_3v0k5")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Level"]
+transform = Transform3D(0.464579, 0, -0.885532, 0, 1, 0, 0.885532, 0, 0.464579, -2.429, 0.492, 3.308)
+mesh = SubResource("PrismMesh_ebc50")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Level"]
+transform = Transform3D(0.143216, 0, -0.989691, 0, 1, 0, 0.989691, 0, 0.143216, -2.51175, 0.491872, 0.462864)
+mesh = SubResource("PrismMesh_ebc50")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Level"]
+transform = Transform3D(-0.785911, 0, -0.61834, 0, 1, 0, 0.61834, 0, -0.785911, -2.388, 0.492, -3.089)
+mesh = SubResource("PrismMesh_ebc50")
+
+[node name="ural4320" parent="SubViewportContainer/SubViewport/Level" instance=ExtResource("6_tnx3w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.9, 3)
+script = ExtResource("5_f2d8h")
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(0.577858, -0.577096, 0.577097, 0, 0.707107, 0.707106, -0.816138, -0.408607, 0.408607, 5.61703, 5.39608, 3.79753)
+projection = 1
+current = true
+size = 1.952
+far = 97.06
+script = ExtResource("6_x23we")
+
+[node name="PostProcessing" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 2.98023e-08, 2.98023e-08, 0, 1, 1.49012e-08, 0, 5.96046e-08, 1, 0, 0, 0)
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_egxnj")
+skeleton = NodePath("../..")
+
+[editable path="SubViewportContainer/SubViewport/Level/Cylinder/icosphere"]
