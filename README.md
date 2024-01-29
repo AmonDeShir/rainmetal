@@ -1,7 +1,4 @@
 # Rain Metal
-
-## Overview
-
 Welcome to Rain Metal, a pixelart co-op game inspired by the post-apocalyptic world of "Hard Truck: Apocalypse." Journey through a desolate landscape, customize your apocalypse-ready vehicle, and engage in battles with your friends.
 
 ## Installation
