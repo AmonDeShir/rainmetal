@@ -12,7 +12,7 @@ Welcome to Rain Metal, a pixelart co-op game inspired by the post-apocalyptic wo
 
 
 ## License
-This project is licensed under the [MIT License](LICENSE.md). Refer to the LICENSE.md file for the complete license text.
+This project is licensed under the [MIT License](LICENSE). Refer to the LICENSE.md file for the complete license text.
 
 ## Dependencies
 - [Spatial Gardener plugin](https://github.com/dreadpon/godot_spatial_gardener)
