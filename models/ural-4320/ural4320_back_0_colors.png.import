@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cag47mqpd3xam"
-path.s3tc="res://.godot/imported/ural4320_colors.jpg-7a75472639cae3eea7df1cdc5d2ad51a.s3tc.ctex"
+uid="uid://3665155ivw1k"
+path.s3tc="res://.godot/imported/ural4320_back_0_colors.png-648701833a1b4ea6d538bc4e98a82c6d.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://models/ural-4320/ural4320_colors.jpg"
-dest_files=["res://.godot/imported/ural4320_colors.jpg-7a75472639cae3eea7df1cdc5d2ad51a.s3tc.ctex"]
+source_file="res://models/ural-4320/ural4320_back_0_colors.png"
+dest_files=["res://.godot/imported/ural4320_back_0_colors.png-648701833a1b4ea6d538bc4e98a82c6d.s3tc.ctex"]
 
 [params]
 
