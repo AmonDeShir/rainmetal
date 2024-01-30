@@ -14,11 +14,14 @@ Welcome to Rain Metal, a pixelart co-op game inspired by the post-apocalyptic wo
 ## License
 This project is licensed under the [MIT License](LICENSE). Refer to the LICENSE file for the complete license text.
 
-## Dependencies
+## Dependencies and Sources
 - [Spatial Gardener plugin](https://github.com/dreadpon/godot_spatial_gardener)
 - [3D Pixel Art in Godot 4 plugin](https://github.com/CBerry22/3d-Pixel-Art-In-Godot-4/tree/master)
 - [Jolt Physics Engine](https://github.com/jrouwe/JoltPhysics)
 - [Godot Jolt](https://github.com/godot-jolt/godot-jolt)
+- [Debug Draw 3D](https://github.com/DmitriySalnikov/godot_debug_draw_3d)
+- [Simple Free-Look Camera](https://github.com/richardhyy/simple-free-look-camera-4)
+- [Car physic is based on thalesr's code](https://www.youtube.com/@thalesr6916)
 
 ## Project Status
 The game is currently in the early stages of development and is not yet playable. It is not considered pre-alpha or a demo; development has recently commenced. Stay tuned for updates as we progress towards a playable version.

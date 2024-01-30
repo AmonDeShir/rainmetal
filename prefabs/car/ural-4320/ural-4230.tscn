@@ -5,112 +5,83 @@
 [ext_resource type="PackedScene" uid="uid://dfral235vbgf0" path="res://models/ural-4320/ural4320_wheel.glb" id="3_4s8oo"]
 [ext_resource type="PackedScene" uid="uid://dpqmwxsscet2k" path="res://models/ural-4320/ural4320_front_0.glb" id="3_wxaym"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_oatfc"]
-friction = 0.5
+[sub_resource type="BoxShape3D" id="BoxShape3D_iwd3k"]
+size = Vector3(1.9989, 1.84674, 4.45062)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_70a6y"]
-size = Vector3(0.846558, 0.855265, 3.41463)
+[sub_resource type="BoxShape3D" id="BoxShape3D_s3o0e"]
+size = Vector3(1.9989, 1.84674, 2.84265)
 
-[node name="Ural-4230" type="VehicleBody3D"]
-collision_layer = 5
-mass = 1000.0
-physics_material_override = SubResource("PhysicsMaterial_oatfc")
-gravity_scale = 2.0
+[node name="Ural-4230" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0684081, 0)
 script = ExtResource("1_hw1xt")
-max_engine_force = 100.0
-gear_ratios = [0.5, 0.7, 1.0, 1.5, 2.0]
 
-[node name="collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00189209, 0.875616, -0.174168)
-shape = SubResource("BoxShape3D_70a6y")
+[node name="JoltPinJoint3D" type="JoltPinJoint3D" parent="."]
+node_a = NodePath("../front")
+node_b = NodePath("../back")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.800591, 0.740283)
 
-[node name="wheel_r0" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.573, 0.3, 1.01213)
-use_as_steering = true
-wheel_radius = 0.3
-wheel_rest_length = 0.14
-wheel_friction_slip = 1.0
-suspension_stiffness = 40.0
-suspension_max_force = 10000.0
-damping_compression = 0.3
-damping_relaxation = 0.5
+[node name="back" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69151, 2.29899)
+mass = 2000.0
 
-[node name="mesh" parent="wheel_r0" instance=ExtResource("3_4s8oo")]
+[node name="collider" type="CollisionShape3D" parent="back"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.79847)
+shape = SubResource("BoxShape3D_iwd3k")
 
-[node name="wheel_r1" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.573, 0.3, -0.547506)
-use_as_traction = true
-wheel_radius = 0.3
-wheel_rest_length = 0.2
-wheel_friction_slip = 1.0
-suspension_stiffness = 40.0
-suspension_max_force = 10000.0
-damping_compression = 0.3
-damping_relaxation = 0.5
+[node name="mesh" parent="back" instance=ExtResource("1_ja343")]
+transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, 0, 0, -0.063)
 
-[node name="mesh" parent="wheel_r1" instance=ExtResource("3_4s8oo")]
+[node name="wheels" type="Node3D" parent="back"]
 
-[node name="wheel_r2" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.573, 0.3, -1.29454)
-use_as_traction = true
-wheel_radius = 0.3
-wheel_rest_length = 0.2
-wheel_friction_slip = 1.0
-suspension_stiffness = 40.0
-suspension_max_force = 10000.0
-damping_compression = 0.3
-damping_relaxation = 0.5
+[node name="ray_r1" type="RayCast3D" parent="back/wheels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.904, -0.754097, -3.39187)
 
-[node name="mesh" parent="wheel_r2" instance=ExtResource("3_4s8oo")]
+[node name="ray_r2" type="RayCast3D" parent="back/wheels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.904, -0.754097, -4.92727)
 
-[node name="wheel_l0" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.573439, 0.3, 1.01188)
-use_as_steering = true
-wheel_radius = 0.3
-wheel_rest_length = 0.2
-wheel_friction_slip = 1.0
-suspension_stiffness = 40.0
-suspension_max_force = 10000.0
-damping_compression = 0.3
-damping_relaxation = 0.5
+[node name="ray_l1" type="RayCast3D" parent="back/wheels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.904, -0.754097, -3.39187)
 
-[node name="mesh" parent="wheel_l0" instance=ExtResource("3_4s8oo")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+[node name="ray_l2" type="RayCast3D" parent="back/wheels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.904, -0.754097, -4.92727)
 
-[node name="wheel_l1" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.573439, 0.3, -0.547506)
-use_as_traction = true
-wheel_radius = 0.3
-wheel_rest_length = 0.2
-wheel_friction_slip = 1.0
-suspension_stiffness = 40.0
-suspension_max_force = 10000.0
-damping_compression = 0.3
-damping_relaxation = 0.5
+[node name="wheels_mesh" type="Node3D" parent="back"]
 
-[node name="mesh" parent="wheel_l1" instance=ExtResource("3_4s8oo")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+[node name="wheel_r1" parent="back/wheels_mesh" instance=ExtResource("3_4s8oo")]
+transform = Transform3D(2.1, 3.55271e-14, 0, -3.55271e-14, 2.1, 0, 0, 0, 2.1, -1.161, -1.1974, -3.38731)
 
-[node name="wheel_l2" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.573439, 0.3, -1.29454)
-use_as_traction = true
-wheel_radius = 0.3
-wheel_rest_length = 0.2
-wheel_friction_slip = 1.0
-suspension_stiffness = 40.0
-suspension_max_force = 10000.0
-damping_compression = 0.3
-damping_relaxation = 0.5
+[node name="wheel_r2" parent="back/wheels_mesh" instance=ExtResource("3_4s8oo")]
+transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, -1.161, -1.1974, -4.91452)
 
-[node name="mesh" parent="wheel_l2" instance=ExtResource("3_4s8oo")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+[node name="wheel_l1" parent="back/wheels_mesh" instance=ExtResource("3_4s8oo")]
+transform = Transform3D(-2.1, 0, -1.83588e-07, 0, 2.1, 0, 1.83588e-07, 0, -2.1, 1.16085, -1.1974, -3.38731)
 
-[node name="back" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.887123, 0.918184)
+[node name="wheel_l2" parent="back/wheels_mesh" instance=ExtResource("3_4s8oo")]
+transform = Transform3D(-2.1, 0, -1.83588e-07, 0, 2.1, 0, 1.83588e-07, 0, -2.1, 1.16085, -1.1974, -4.91452)
 
-[node name="ural4320_back_0" parent="back" instance=ExtResource("1_ja343")]
+[node name="front" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69151, 2.29899)
+mass = 6000.0
 
-[node name="front" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.887123, 0.918184)
+[node name="collider" type="CollisionShape3D" parent="front"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.145)
+shape = SubResource("BoxShape3D_s3o0e")
 
-[node name="ural4320_front_0" parent="front" instance=ExtResource("3_wxaym")]
+[node name="mesh" parent="front" instance=ExtResource("3_wxaym")]
+transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, 0, 0, -0.0631805)
+
+[node name="wheels" type="Node3D" parent="front"]
+
+[node name="ray_l0" type="RayCast3D" parent="front/wheels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.904, -0.754097, 0.25828)
+
+[node name="ray_r0" type="RayCast3D" parent="front/wheels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.904, -0.754097, 0.25828)
+
+[node name="wheels_mesh" type="Node3D" parent="front"]
+
+[node name="wheel_r0" parent="front/wheels_mesh" instance=ExtResource("3_4s8oo")]
+transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, -1.161, -1.18939, 0.281089)
+
+[node name="wheel_l1" parent="front/wheels_mesh" instance=ExtResource("3_4s8oo")]
+transform = Transform3D(-2.1, 0, -1.83588e-07, 0, 2.1, 0, 1.83588e-07, 0, -2.1, 1.161, -1.189, 0.281)

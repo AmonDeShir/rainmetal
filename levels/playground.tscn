@@ -1,9 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://d3o0oyqg0q37c"]
+[gd_scene load_steps=16 format=3 uid="uid://8ipco71d31fy"]
 
-[ext_resource type="Environment" uid="uid://bwwf4qs2o52o0" path="res://env/playground_env.tres" id="1_6qvmc"]
-[ext_resource type="Script" path="res://plugins/pixel-art/scripts/spin.gd" id="1_u4633"]
-[ext_resource type="PackedScene" uid="uid://hkl678l3l74p" path="res://prefabs/camera/fps-camera/fps-camera.tscn" id="2_xjgky"]
-[ext_resource type="PackedScene" uid="uid://cpgmwthsgrx3n" path="res://prefabs/player/Player.tscn" id="5_52cme"]
+[ext_resource type="Environment" uid="uid://bwwf4qs2o52o0" path="res://env/playground_env.tres" id="1_ovy7h"]
+[ext_resource type="Script" path="res://plugins/addons/free_camera/camera.gd" id="3_5dlso"]
+[ext_resource type="PackedScene" uid="uid://cpgmwthsgrx3n" path="res://prefabs/player/Player.tscn" id="4_5u6e6"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2dtax"]
 
@@ -46,29 +45,13 @@ data = PackedVector3Array(0, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0, 0.5, 
 
 [node name="Main" type="Node3D"]
 
-[node name="ViewportContainer" type="SubViewportContainer" parent="."]
-texture_filter = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-stretch = true
-stretch_shrink = 2
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_ovy7h")
 
-[node name="SubViewport" type="SubViewport" parent="ViewportContainer"]
-handle_input_locally = false
-size = Vector2i(576, 324)
-render_target_update_mode = 4
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="ViewportContainer/SubViewport"]
-environment = ExtResource("1_6qvmc")
-
-[node name="Light" type="Node3D" parent="ViewportContainer/SubViewport"]
+[node name="Light" type="Node3D" parent="."]
 transform = Transform3D(-0.177424, -0.434416, 0.883065, 0, 0.897301, 0.441419, -0.984135, 0.0783183, -0.159202, 0, 10, 0)
-script = ExtResource("1_u4633")
 
-[node name="DirectionalLight" type="DirectionalLight3D" parent="ViewportContainer/SubViewport/Light"]
+[node name="DirectionalLight" type="DirectionalLight3D" parent="Light"]
 transform = Transform3D(-0.350821, -0.551618, 0.756731, 0.410834, 0.635508, 0.653716, -0.841511, 0.540228, 0.00367382, 6.12345e-08, -0.742023, -0.36782)
 light_color = Color(1, 0.827451, 0.607843, 1)
 light_energy = 1.7
@@ -79,7 +62,7 @@ directional_shadow_split_2 = 0.3
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 300.0
 
-[node name="AmbientLight" type="DirectionalLight3D" parent="ViewportContainer/SubViewport/Light"]
+[node name="AmbientLight" type="DirectionalLight3D" parent="Light"]
 transform = Transform3D(-0.178122, 0.984008, 1.91911e-07, -0.431701, -0.0781454, 0.898625, 0.884255, 0.160065, 0.438717, 7.23521e-08, -0.780057, -0.386675)
 light_energy = 0.1
 shadow_normal_bias = 1.0
@@ -88,67 +71,66 @@ directional_shadow_blend_splits = true
 directional_shadow_max_distance = 300.0
 sky_mode = 1
 
-[node name="Level" type="Node3D" parent="ViewportContainer/SubViewport"]
+[node name="Level" type="Node3D" parent="."]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ViewportContainer/SubViewport/Level"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000314713, 0.000907898, -0.0157251)
 collision_layer = 5
 physics_material_override = SubResource("PhysicsMaterial_2dtax")
 
-[node name="Floor" type="MeshInstance3D" parent="ViewportContainer/SubViewport/Level/StaticBody3D"]
+[node name="Floor" type="MeshInstance3D" parent="Level/StaticBody3D"]
 mesh = SubResource("PlaneMesh_1s8w4")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ViewportContainer/SubViewport/Level/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 974.965, -0.462274, 0)
 shape = SubResource("BoxShape3D_m1m72")
 
-[node name="Cylinder" type="MeshInstance3D" parent="ViewportContainer/SubViewport/Level"]
+[node name="Cylinder" type="MeshInstance3D" parent="Level"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.936269, 0)
 mesh = SubResource("CylinderMesh_x030n")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ViewportContainer/SubViewport/Level/Cylinder"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/Cylinder"]
 collision_layer = 5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ViewportContainer/SubViewport/Level/Cylinder/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Cylinder/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_w6n1q")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="ViewportContainer/SubViewport/Level"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Level"]
 transform = Transform3D(0.464579, 0, -0.885532, 0, 1, 0, 0.885532, 0, 0.464579, -2.429, 0.492, 3.308)
 mesh = SubResource("PrismMesh_ebc50")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ViewportContainer/SubViewport/Level/MeshInstance3D2"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/MeshInstance3D2"]
 transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
 collision_layer = 5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ViewportContainer/SubViewport/Level/MeshInstance3D2/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/MeshInstance3D2/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_f40u1")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="ViewportContainer/SubViewport/Level"]
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Level"]
 transform = Transform3D(0.143216, 0, -0.989691, 0, 1, 0, 0.989691, 0, 0.143216, -2.51175, 0.491872, 0.462864)
 mesh = SubResource("PrismMesh_ebc50")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ViewportContainer/SubViewport/Level/MeshInstance3D3"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/MeshInstance3D3"]
 collision_layer = 5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ViewportContainer/SubViewport/Level/MeshInstance3D3/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/MeshInstance3D3/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_w4o0a")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="ViewportContainer/SubViewport/Level"]
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Level"]
 transform = Transform3D(-0.785911, 0, -0.61834, 0, 1, 0, 0.61834, 0, -0.785911, -2.388, 0.492, -3.089)
 mesh = SubResource("PrismMesh_ebc50")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="ViewportContainer/SubViewport/Level/MeshInstance3D4"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/MeshInstance3D4"]
 collision_layer = 5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ViewportContainer/SubViewport/Level/MeshInstance3D4/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/MeshInstance3D4/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_k7eye")
 
-[node name="FPSCamera" parent="ViewportContainer/SubViewport" node_paths=PackedStringArray("player", "light") instance=ExtResource("2_xjgky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2.38845, -2.5383)
-player = NodePath("../Player")
-light = NodePath("../Light/DirectionalLight")
-disable_post_processing_in_editor = true
-
-[node name="Player" parent="ViewportContainer/SubViewport" instance=ExtResource("5_52cme")]
+[node name="Player" parent="." instance=ExtResource("4_5u6e6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3.76599, -3)
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(0.267238, 0, 0.96363, 0, 1, 0, -0.96363, 0, 0.267238, 11.3694, 5.61683, -1.19929)
+script = ExtResource("3_5dlso")
+target = NodePath("../Player")
