@@ -17,6 +17,8 @@ This project is licensed under the [MIT License](LICENSE). Refer to the LICENSE 
 ## Dependencies
 - [Spatial Gardener plugin](https://github.com/dreadpon/godot_spatial_gardener)
 - [3D Pixel Art in Godot 4 plugin](https://github.com/CBerry22/3d-Pixel-Art-In-Godot-4/tree/master)
+- [Jolt Physics Engine](https://github.com/jrouwe/JoltPhysics)
+- [Godot Jolt](https://github.com/godot-jolt/godot-jolt)
 
 ## Project Status
 The game is currently in the early stages of development and is not yet playable. It is not considered pre-alpha or a demo; development has recently commenced. Stay tuned for updates as we progress towards a playable version.
