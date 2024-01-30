@@ -72,6 +72,11 @@ show_cursor={
 "events": []
 }
 
+[layer_names]
+
+3d_render/layer_1="terrain"
+3d_render/layer_3="camera"
+
 [physics]
 
 2d/run_on_separate_thread=true
