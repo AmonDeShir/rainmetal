@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://hkl678l3l74p"]
+
+[ext_resource type="Script" path="res://scripts/camera/fps-camera/fps-camera.gd" id="1_ihioq"]
+[ext_resource type="PackedScene" uid="uid://7w3vj5s77w8s" path="res://prefabs/camera/post_processing_camera/post-processing-camera.tscn" id="2_rn5yy"]
+
+[node name="FPSCamera" type="Node3D"]
+script = ExtResource("1_ihioq")
+
+[node name="inner_gimbal" type="Node3D" parent="."]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="inner_gimbal"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3, 0)
+collision_mask = 4
+spring_length = 10.0
+margin = 0.5
+
+[node name="PostProcessingCamera" parent="inner_gimbal/SpringArm3D" instance=ExtResource("2_rn5yy")]
