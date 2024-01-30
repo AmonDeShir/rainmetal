@@ -1,74 +1,48 @@
-[gd_scene load_steps=22 format=3 uid="uid://d3o0oyqg0q37c"]
+[gd_scene load_steps=16 format=3 uid="uid://d3o0oyqg0q37c"]
 
 [ext_resource type="Environment" uid="uid://bwwf4qs2o52o0" path="res://env/playground_env.tres" id="1_6qvmc"]
 [ext_resource type="Script" path="res://plugins/pixel-art/scripts/spin.gd" id="1_u4633"]
+[ext_resource type="PackedScene" uid="uid://hkl678l3l74p" path="res://prefabs/camera/fps-camera/fps-camera.tscn" id="2_xjgky"]
 [ext_resource type="PackedScene" uid="uid://cnd7i1kucwpvq" path="res://plugins/pixel-art/models/icosphere.glb" id="3_ekm5x"]
-[ext_resource type="Script" path="res://scripts/camera/camera_follow.gd" id="5_nqhky"]
-[ext_resource type="PackedScene" uid="uid://do340ick801xw" path="res://prefabs/car/ural-4320/ural-4230.tscn" id="6_r6kjb"]
-[ext_resource type="Script" path="res://scripts/camera/camera.gd" id="6_x23we"]
-[ext_resource type="Script" path="res://scripts/player/player.gd" id="7_ctyhm"]
-[ext_resource type="Shader" path="res://plugins/pixel-art/outline.gdshader" id="7_sjtrq"]
+[ext_resource type="PackedScene" uid="uid://cpgmwthsgrx3n" path="res://prefabs/player/Player.tscn" id="5_52cme"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xqpyn"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j2xdm"]
 albedo_color = Color(0.117647, 0.737255, 0.45098, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1s8w4"]
-material = SubResource("StandardMaterial3D_xqpyn")
-size = Vector2(20, 20)
+material = SubResource("StandardMaterial3D_j2xdm")
+size = Vector2(100, 100)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m1m72"]
-size = Vector3(20, 1, 20)
+size = Vector3(2049.93, 1, 100)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qp00u"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_clytk"]
 albedo_color = Color(0.588235, 0.423529, 0.423529, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_8smba"]
-material = SubResource("StandardMaterial3D_qp00u")
+material = SubResource("StandardMaterial3D_clytk")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c3sws"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r1srj"]
 diffuse_mode = 3
 albedo_color = Color(0.658824, 0.517647, 0.952941, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_x030n"]
-material = SubResource("StandardMaterial3D_c3sws")
+material = SubResource("StandardMaterial3D_r1srj")
 top_radius = 0.75
 bottom_radius = 0.75
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3v0k5"]
 albedo_color = Color(0.941176, 0.309804, 0.470588, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4irvy"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2gbt"]
 albedo_color = Color(0.301961, 0.607843, 0.901961, 1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_ebc50"]
-material = SubResource("StandardMaterial3D_4irvy")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_i6itp"]
-render_priority = 0
-shader = ExtResource("7_sjtrq")
-shader_parameter/depth_threshold = 0.05
-shader_parameter/reverse_depth_threshold = 0.25
-shader_parameter/normal_threshold = 0.6
-shader_parameter/darken_amount = 0.3
-shader_parameter/lighten_amount = 1.5
-shader_parameter/normal_edge_bias = Vector3(-1, -1, -1)
-shader_parameter/light_direction = Vector3(-0.883065, -0.441419, 0.159202)
-
-[sub_resource type="QuadMesh" id="QuadMesh_egxnj"]
-material = SubResource("ShaderMaterial_i6itp")
-flip_faces = true
-size = Vector2(2, 2)
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ut35q"]
+material = SubResource("StandardMaterial3D_u2gbt")
 
 [node name="Main" type="Node3D"]
 
-[node name="player" type="Node3D" parent="." node_paths=PackedStringArray("car")]
-transform = Transform3D(0.999952, 2.98023e-08, -0.00982602, 2.98023e-08, 1, 2.98023e-08, 0.00982602, 0, 0.999952, 0, 0, 0)
-script = ExtResource("7_ctyhm")
-car = NodePath("../SubViewportContainer/SubViewport/Ural-4230")
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="ViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -78,37 +52,20 @@ grow_vertical = 2
 stretch = true
 stretch_shrink = 2
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="ViewportContainer"]
 handle_input_locally = false
 size = Vector2i(576, 324)
 render_target_update_mode = 4
 
-[node name="Level" type="Node3D" parent="SubViewportContainer/SubViewport"]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/Level"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="ViewportContainer/SubViewport"]
 environment = ExtResource("1_6qvmc")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Level"]
-transform = Transform3D(4.95567, 0, 0, 0, 1, 0, 0, 0, 3.8475, 0.000314713, 0.000907898, -0.0157251)
-
-[node name="Floor" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Level/StaticBody3D"]
-mesh = SubResource("PlaneMesh_1s8w4")
-skeleton = NodePath("../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Level/StaticBody3D"]
-shape = SubResource("BoxShape3D_m1m72")
-
-[node name="Box" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Level"]
-transform = Transform3D(0.968583, 0, 0.24869, 0, 1, 0, -0.24869, 0, 0.968583, -0.163607, 0.460576, 2.60698)
-mesh = SubResource("BoxMesh_8smba")
-skeleton = NodePath("../../../..")
-
-[node name="Node3D" type="Node3D" parent="SubViewportContainer/SubViewport/Level"]
+[node name="Light" type="Node3D" parent="ViewportContainer/SubViewport"]
 transform = Transform3D(-0.175184, -0.433329, 0.871062, 0, 0.895055, 0.443336, -0.971711, 0.0781206, -0.157049, 0, 10, 0)
 script = ExtResource("1_u4633")
 
-[node name="DirectionalLight" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Level/Node3D"]
-transform = Transform3D(-0.354036, -0.554892, 0.769732, 0.420655, 0.635356, 0.651498, -0.849263, 0.547029, 0.00371746, 5.14644e-06, -0.739403, -0.36783)
+[node name="DirectionalLight" type="DirectionalLight3D" parent="ViewportContainer/SubViewport/Light"]
+transform = Transform3D(-0.349941, -0.552207, 0.756709, 0.41579, 0.632295, 0.653699, -0.83944, 0.543388, 0.00833622, 5.14644e-06, -0.739403, -0.36783)
 light_color = Color(1, 0.827451, 0.607843, 1)
 light_energy = 1.7
 shadow_enabled = true
@@ -118,8 +75,8 @@ directional_shadow_split_2 = 0.3
 directional_shadow_blend_splits = true
 directional_shadow_max_distance = 300.0
 
-[node name="AmbientLight" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Level/Node3D"]
-transform = Transform3D(-0.179701, 0.996715, -6.14904e-06, -0.441858, -0.07966, 0.896377, 0.892071, 0.160826, 0.445922, 5.4173e-06, -0.777304, -0.386685)
+[node name="AmbientLight" type="DirectionalLight3D" parent="ViewportContainer/SubViewport/Light"]
+transform = Transform3D(-0.177641, 0.984095, 1.25785e-07, -0.436794, -0.0788468, 0.8961, 0.881847, 0.159184, 0.443853, 5.4173e-06, -0.777304, -0.386685)
 light_energy = 0.1
 shadow_normal_bias = 1.0
 directional_shadow_split_2 = 0.3
@@ -127,53 +84,55 @@ directional_shadow_blend_splits = true
 directional_shadow_max_distance = 300.0
 sky_mode = 1
 
-[node name="Cylinder" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Level"]
+[node name="Level" type="Node3D" parent="ViewportContainer/SubViewport"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ViewportContainer/SubViewport/Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000314713, 0.000907898, -0.0157251)
+collision_layer = 5
+
+[node name="Floor" type="MeshInstance3D" parent="ViewportContainer/SubViewport/Level/StaticBody3D"]
+mesh = SubResource("PlaneMesh_1s8w4")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ViewportContainer/SubViewport/Level/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 974.965, -0.462274, 0)
+shape = SubResource("BoxShape3D_m1m72")
+
+[node name="Box" type="MeshInstance3D" parent="ViewportContainer/SubViewport/Level"]
+transform = Transform3D(0.968583, 0, 0.24869, 0, 1, 0, -0.24869, 0, 0.968583, -0.163607, 0.460576, 2.60698)
+mesh = SubResource("BoxMesh_8smba")
+skeleton = NodePath("../../../Main")
+
+[node name="Cylinder" type="MeshInstance3D" parent="ViewportContainer/SubViewport/Level"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.936269, 0)
 mesh = SubResource("CylinderMesh_x030n")
 
-[node name="icosphere" parent="SubViewportContainer/SubViewport/Level/Cylinder" instance=ExtResource("3_ekm5x")]
+[node name="icosphere" parent="ViewportContainer/SubViewport/Level/Cylinder" instance=ExtResource("3_ekm5x")]
 transform = Transform3D(0.423644, 0, 0.246325, 0, 0.5, 0, -0.246325, 0, 0.423644, 0, 1.75302, 0)
 script = ExtResource("1_u4633")
 
-[node name="Icosphere" parent="SubViewportContainer/SubViewport/Level/Cylinder/icosphere" index="0"]
+[node name="Icosphere" parent="ViewportContainer/SubViewport/Level/Cylinder/icosphere" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_3v0k5")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Level"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="ViewportContainer/SubViewport/Level"]
 transform = Transform3D(0.464579, 0, -0.885532, 0, 1, 0, 0.885532, 0, 0.464579, -2.429, 0.492, 3.308)
 mesh = SubResource("PrismMesh_ebc50")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Level"]
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="ViewportContainer/SubViewport/Level"]
 transform = Transform3D(0.143216, 0, -0.989691, 0, 1, 0, 0.989691, 0, 0.143216, -2.51175, 0.491872, 0.462864)
 mesh = SubResource("PrismMesh_ebc50")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Level"]
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="ViewportContainer/SubViewport/Level"]
 transform = Transform3D(-0.785911, 0, -0.61834, 0, 1, 0, 0.61834, 0, -0.785911, -2.388, 0.492, -3.089)
 mesh = SubResource("PrismMesh_ebc50")
 
-[node name="camera_pivot" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("target")]
-transform = Transform3D(0.999952, 0, -0.00982605, 0, 1, 0, 0.00982605, 0, 0.999952, 1.98464, 0.946402, 2.58004)
-script = ExtResource("5_nqhky")
-target = NodePath("../../../player")
+[node name="FPSCamera" parent="ViewportContainer/SubViewport" node_paths=PackedStringArray("player", "light") instance=ExtResource("2_xjgky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.55664, -2.5383)
+player = NodePath("../Player")
+light = NodePath("../Light/DirectionalLight")
+disable_post_processing_in_editor = true
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/camera_pivot" node_paths=PackedStringArray("player")]
-transform = Transform3D(-0.999952, 0.00694813, -0.00694813, 0, 0.707107, 0.707107, 0.00982613, 0.707073, -0.707073, 0.00184155, 4.0296, -5.1413)
-projection = 1
-current = true
-size = 5.761
-far = 97.06
-script = ExtResource("6_x23we")
-player = NodePath("../../../../player")
+[node name="Player" parent="ViewportContainer/SubViewport" instance=ExtResource("5_52cme")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.247607, -3)
 
-[node name="PostProcessing" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/camera_pivot/Camera3D"]
-unique_name_in_owner = true
-transform = Transform3D(1, 2.98023e-08, 2.98023e-08, 0, 1, 1.49012e-08, 0, 5.96046e-08, 1, 0, 0, 0)
-extra_cull_margin = 16384.0
-mesh = SubResource("QuadMesh_egxnj")
-skeleton = NodePath("../../..")
-
-[node name="Ural-4230" parent="SubViewportContainer/SubViewport" instance=ExtResource("6_r6kjb")]
-transform = Transform3D(0.999952, 0, -0.00982605, 0, 1, 0, 0.00982605, 0, 0.999952, 1.98464, 0.946402, 3.03903)
-physics_material_override = SubResource("PhysicsMaterial_ut35q")
-max_engine_force = 2.0
-
-[editable path="SubViewportContainer/SubViewport/Level/Cylinder/icosphere"]
+[editable path="ViewportContainer/SubViewport/Level/Cylinder/icosphere"]

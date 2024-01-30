@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmqo1ribrrv7u"]
+
+[ext_resource type="Script" path="res://ui/speedometer/speedometer.gd" id="1_4mnhl"]
+
+[node name="Speedometer" type="Node2D"]
+script = ExtResource("1_4mnhl")
+
+[node name="Rpm" type="Label" parent="."]
+offset_right = 48.0
+offset_bottom = 23.0
+size_flags_horizontal = 0
+text = "Rpm: 11"
+
+[node name="Gear" type="Label" parent="."]
+offset_left = 1.0
+offset_top = 59.0
+offset_right = 56.0
+offset_bottom = 82.0
+text = "Gear: 1"
+
+[node name="Speed" type="Label" parent="."]
+offset_left = 1.0
+offset_top = 29.0
+offset_right = 41.0
+offset_bottom = 52.0
+text = "Speed: 20 km/h"

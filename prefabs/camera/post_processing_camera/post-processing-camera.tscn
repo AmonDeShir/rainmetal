@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://7w3vj5s77w8s"]
+
+[ext_resource type="Script" path="res://scripts/camera/post-processing-camera/post-processing-camera.gd" id="1_6uly4"]
+[ext_resource type="Shader" path="res://plugins/pixel-art/outline.gdshader" id="1_rj2wy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tp5xi"]
+render_priority = 0
+shader = ExtResource("1_rj2wy")
+shader_parameter/depth_threshold = 0.05
+shader_parameter/reverse_depth_threshold = 0.25
+shader_parameter/normal_threshold = 0.6
+shader_parameter/darken_amount = 0.3
+shader_parameter/lighten_amount = 1.5
+shader_parameter/normal_edge_bias = Vector3(-1, -1, -1)
+shader_parameter/light_direction = Vector3(0.413919, -0.584774, 0.697646)
+
+[sub_resource type="QuadMesh" id="QuadMesh_7jnpk"]
+material = SubResource("ShaderMaterial_tp5xi")
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="PostProcessingCamera" type="Node3D"]
+script = ExtResource("1_6uly4")
+disable_post_processing_in_editor = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+current = true
+size = 5.761
+far = 97.06
+
+[node name="PostProcessing" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(1, 2.98023e-08, 2.98023e-08, 0, 1, 0, 0, 8.9407e-08, 1, 0, 0, 0)
+visible = false
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_7jnpk")
+skeleton = NodePath("")

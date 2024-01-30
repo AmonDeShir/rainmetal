@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpgmwthsgrx3n"]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_7qxo0"]
+[ext_resource type="PackedScene" uid="uid://do340ick801xw" path="res://prefabs/car/ural-4320/ural-4230.tscn" id="2_xlye2"]
+[ext_resource type="PackedScene" uid="uid://dmqo1ribrrv7u" path="res://ui/speedometer/speedometer.tscn" id="3_0jgqd"]
+
+[node name="Player" type="Node3D" node_paths=PackedStringArray("car")]
+script = ExtResource("1_7qxo0")
+car = NodePath("Car")
+
+[node name="Car" parent="." node_paths=PackedStringArray("speedometer") instance=ExtResource("2_xlye2")]
+speedometer = NodePath("../UI/Speedometer")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Speedometer" parent="UI" instance=ExtResource("3_0jgqd")]
