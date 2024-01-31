@@ -9,12 +9,12 @@ var use_as_traction: bool = true
 @export
 var tire_grip: float = 2.0
 
-@onready
-var car: Car = get_parent().get_parent()
+var car: Car
 
 var previus_spring_length := 0.0
 
 func _ready():
+	car = get_parent().get_parent().car
 	add_exception(car)
 	
 	if not use_as_steering:
@@ -30,6 +30,7 @@ func _process(delta: float):
 			rotation.y = lerpf(rotation.y, car.steering_angle, car.steering_speed * delta)
 		else:
 			rotation.y = lerpf(rotation.y, car.steering_angle, car.steering_speed * 2 * delta)
+
 
 func _physics_process(delta: float):
 	if is_colliding():

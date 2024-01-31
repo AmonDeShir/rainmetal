@@ -17,6 +17,3 @@ offset_bottom = 40.0
 [node name="Speedometer" parent="UI" instance=ExtResource("3_0jgqd")]
 
 [node name="car" parent="." instance=ExtResource("3_6yhx2")]
-spring_strength = 10.0
-engine_power = 1.0
-debug = true
