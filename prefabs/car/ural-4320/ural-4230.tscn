@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://do340ick801xw"]
+[gd_scene load_steps=21 format=3 uid="uid://do340ick801xw"]
 
 [ext_resource type="Script" path="res://scripts/car/car.gd" id="1_hw1xt"]
 [ext_resource type="PackedScene" uid="uid://kpcsrg4munyv" path="res://models/ural-4320/ural4320_back_0.glb" id="1_ja343"]
@@ -6,6 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://dpqmwxsscet2k" path="res://models/ural-4320/ural4320_front_0.glb" id="3_wxaym"]
 [ext_resource type="Script" path="res://scripts/car/car-part.gd" id="4_pwh1h"]
 [ext_resource type="Script" path="res://scripts/car/wheel.gd" id="5_1te7r"]
+
+[sub_resource type="Curve" id="Curve_oqn6y"]
+max_value = 80.0
+_data = [Vector2(0, 80), 0.0, 0.0, 0, 0, Vector2(0.35, 70), 0.0, 0.0, 0, 0, Vector2(1, 10), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s3o0e"]
 size = Vector3(2, 1.85, 2.85)
@@ -63,12 +68,13 @@ mass = 5595.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -0.7, 0)
 script = ExtResource("1_hw1xt")
-suspension_rest_distance = 0.6
-spring_strength = 80000.0
-spring_damper = 15000.0
-wheel_radius = 0.6
-engine_power = 20000.0
-max_steering_angle = 60.0
+suspension_rest_distance = 0.75
+spring_strength = 74450.0
+spring_damper = 80000.0
+wheel_radius = 0.5
+engine_power = 240.0
+max_speed = 85.0
+max_steering_angle = SubResource("Curve_oqn6y")
 steering_speed = 5.0
 debug = true
 
@@ -86,7 +92,7 @@ mesh = SubResource("BoxMesh_q4v53")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.167, -0.491958)
 
 [node name="wheel_l0" type="RayCast3D" parent="cabin/wheels"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.904, -0.754097, 0.25828)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.115, -0.754097, 0.25828)
 script = ExtResource("5_1te7r")
 use_as_steering = 1
 tire_grip = 100.0
@@ -96,10 +102,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.579023, 0)
 mesh = SubResource("BoxMesh_h2dwr")
 
 [node name="mesh" parent="cabin/wheels/wheel_l0" instance=ExtResource("3_4s8oo")]
-transform = Transform3D(-2.1, 0, -1.83588e-07, 0, 2.1, 0, 1.83588e-07, 0, -2.1, 0.257, -0.192475, 0.0226777)
+transform = Transform3D(-2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 0.257, -0.192475, 0.0226777)
 
 [node name="wheel_r0" type="RayCast3D" parent="cabin/wheels"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.904, -0.754097, 0.25828)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.11485, -0.754097, 0.25828)
 script = ExtResource("5_1te7r")
 use_as_steering = 2
 tire_grip = 100.0
@@ -109,7 +115,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.579023, 0)
 mesh = SubResource("BoxMesh_nqpe7")
 
 [node name="mesh" parent="cabin/wheels/wheel_r0" instance=ExtResource("3_4s8oo")]
-transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, -0.257, -0.192865, 0.0227668)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -0.257, -0.192865, 0.0227668)
 
 [node name="mesh" parent="cabin" instance=ExtResource("3_wxaym")]
 transform = Transform3D(-2.1, 0, -1.83588e-07, 0, 2.1, 0, 1.83588e-07, 0, -2.1, 0, 0, 0)
@@ -131,7 +137,7 @@ mesh = SubResource("BoxMesh_ja11q")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.167408, 0.61218)
 
 [node name="wheel_r0" type="RayCast3D" parent="body/wheels"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.904, -0.754097, 0.4066)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.11485, -0.754097, 0.4066)
 script = ExtResource("5_1te7r")
 tire_grip = 100.0
 
@@ -140,10 +146,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.579023, 0)
 mesh = SubResource("BoxMesh_mqc6v")
 
 [node name="mesh" parent="body/wheels/wheel_r0" instance=ExtResource("3_4s8oo")]
-transform = Transform3D(2.1, 3.55271e-14, 0, -3.55271e-14, 2.1, 0, 0, 0, 2.1, -0.257, -0.275895, 0.00455999)
+transform = Transform3D(2, 3.38353e-14, 0, -3.38353e-14, 2, 0, 0, 0, 2, -0.257, -0.275895, 0.00455999)
 
 [node name="wheel_r1" type="RayCast3D" parent="body/wheels"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.904, -0.754097, -1.1288)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.11485, -0.754097, -1.1288)
 script = ExtResource("5_1te7r")
 tire_grip = 100.0
 
@@ -152,10 +158,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.579023, 0)
 mesh = SubResource("BoxMesh_3xmn2")
 
 [node name="mesh" parent="body/wheels/wheel_r1" instance=ExtResource("3_4s8oo")]
-transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, -0.257, -0.275895, 0.01275)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -0.257, -0.275895, 0.01275)
 
 [node name="wheel_l0" type="RayCast3D" parent="body/wheels"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.904, -0.754097, 0.4066)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.115, -0.754097, 0.4066)
 script = ExtResource("5_1te7r")
 tire_grip = 100.0
 
@@ -164,10 +170,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.579023, 0)
 mesh = SubResource("BoxMesh_7l7uv")
 
 [node name="mesh" parent="body/wheels/wheel_l0" instance=ExtResource("3_4s8oo")]
-transform = Transform3D(-2.1, 0, -1.83588e-07, 0, 2.1, 0, 1.83588e-07, 0, -2.1, 0.25685, -0.275895, 0.00455999)
+transform = Transform3D(-2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 0.25685, -0.275895, 0.00455999)
 
 [node name="wheel_l1" type="RayCast3D" parent="body/wheels"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.904, -0.754097, -1.1288)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.115, -0.754097, -1.1288)
 script = ExtResource("5_1te7r")
 tire_grip = 100.0
 
@@ -176,4 +182,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.579023, 0)
 mesh = SubResource("BoxMesh_x30kr")
 
 [node name="mesh" parent="body/wheels/wheel_l1" instance=ExtResource("3_4s8oo")]
-transform = Transform3D(-2.1, 0, -1.83588e-07, 0, 2.1, 0, 1.83588e-07, 0, -2.1, 0.25685, -0.275895, 0.01275)
+transform = Transform3D(-2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 0.25685, -0.275895, 0.01275)

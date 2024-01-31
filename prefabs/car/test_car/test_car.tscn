@@ -1,8 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://4ii4pvkby43x"]
+[gd_scene load_steps=9 format=3 uid="uid://4ii4pvkby43x"]
 
 [ext_resource type="Script" path="res://scripts/car/car.gd" id="1_b6ibe"]
 [ext_resource type="Script" path="res://scripts/car/wheel.gd" id="2_8nq2p"]
 [ext_resource type="Script" path="res://scripts/car/car-part.gd" id="2_a0gpr"]
+
+[sub_resource type="Curve" id="Curve_bnatu"]
+max_value = 80.0
+_data = [Vector2(0, 80), 0.0, 0.0, 0, 0, Vector2(0.0876133, 19.8808), 0.0, 0.0, 0, 0, Vector2(1, 15), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dskc3"]
 size = Vector3(1.48828, 0.374329, 3.00726)
@@ -20,12 +25,13 @@ size = Vector3(0.1, 0.1, 1)
 [node name="TestCar" type="RigidBody3D"]
 mass = 0.01
 center_of_mass_mode = 1
-center_of_mass = Vector3(0, -0.7, 0)
+center_of_mass = Vector3(0, -1.5, 0)
 script = ExtResource("1_b6ibe")
 spring_strength = 10000.0
-spring_damper = 1000.0
-engine_power = 5000.0
-max_steering_angle = 60.0
+spring_damper = 3000.0
+engine_power = 110.0
+max_speed = 80.0
+max_steering_angle = SubResource("Curve_bnatu")
 debug = true
 
 [node name="collision" type="CollisionShape3D" parent="."]
@@ -48,7 +54,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57, 0.000131071, -1.2)
 script = ExtResource("2_8nq2p")
 use_as_steering = 1
 use_as_traction = false
-tire_grip = 20.0
+tire_grip = 10.0
 
 [node name="debug_mesh" type="MeshInstance3D" parent="collision/wheels/FL_wheel"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.579146, 0)
@@ -59,7 +65,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.57, 0.000131071, -1.2)
 script = ExtResource("2_8nq2p")
 use_as_steering = 2
 use_as_traction = false
-tire_grip = 20.0
+tire_grip = 10.0
 
 [node name="debug_mesh" type="MeshInstance3D" parent="collision/wheels/FR_wheel"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.579023, 0)
@@ -69,7 +75,7 @@ skeleton = NodePath("../../FL_wheel")
 [node name="BL_wheel" type="RayCast3D" parent="collision/wheels"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57, 0.000131071, 1.2)
 script = ExtResource("2_8nq2p")
-tire_grip = 20.0
+tire_grip = 10.0
 
 [node name="debug_mesh" type="MeshInstance3D" parent="collision/wheels/BL_wheel"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.579023, 0)
@@ -79,7 +85,7 @@ skeleton = NodePath("../../FL_wheel")
 [node name="BR_wheel" type="RayCast3D" parent="collision/wheels"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.57, 0.000131071, 1.2)
 script = ExtResource("2_8nq2p")
-tire_grip = 20.0
+tire_grip = 10.0
 
 [node name="debug_mesh" type="MeshInstance3D" parent="collision/wheels/BR_wheel"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.579023, 0)

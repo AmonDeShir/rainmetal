@@ -31,7 +31,6 @@ script = ExtResource("1_vae4t")
 spring_strength = 80000.0
 spring_damper = 8000.0
 engine_power = 20000.0
-max_steering_angle = 60.0
 steering_speed = 5.0
 debug = true
 

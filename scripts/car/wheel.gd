@@ -35,8 +35,10 @@ func _process(delta: float):
 
 
 func process_wheel_visuals(delta: float):
+	if $mesh == null:
+		return
+	
 	var collision_point := get_collision_point()
-	var point := get_wheel_point(collision_point)
 	
 	$mesh.global_position.y = collision_point.y + car.wheel_radius
 	
@@ -53,6 +55,7 @@ func _physics_process(delta: float):
 		acceleration(collision_point)
 		friction(collision_point)
 		lateral_force(delta, collision_point)
+		steering_friction(delta, collision_point)
 
 
 func suspension(delta: float, raycast_dest: Vector3):
@@ -60,7 +63,7 @@ func suspension(delta: float, raycast_dest: Vector3):
 		
 		var raycast_origin := global_position
 		var distance := raycast_dest.distance_to(raycast_origin)
-		
+
 		var spring_length := clampf(distance - car.wheel_radius, 0, car.suspension_rest_distance)
 		var spring_force := car.spring_strength * (car.suspension_rest_distance - spring_length)
 		var spring_velocity := (previus_spring_length - spring_length) / delta
@@ -75,8 +78,7 @@ func suspension(delta: float, raycast_dest: Vector3):
 		car.apply_force(susp_direction * suspension_force, point - car.global_position)
 		
 		if car.debug:
-			# Suspension (spring)
-			DebugDraw3D.draw_arrow(global_position, to_global(position + Vector3(-position.x, (suspension_force.y / (2 * car.mass)), -position.z)), Color.GREEN, 0.1, true)
+			DebugDraw3D.draw_arrow(global_position, to_global(position + Vector3(-position.x, (suspension_force.y / (2 * car.mass)), -position.z)), Color.YELLOW, 0.1, true)
 			
 			# Raycast
 			DebugDraw3D.draw_line_hit_offset(global_position, to_global(position + Vector3(-position.x, -1 / car.mass, -position.z)), true, distance, 0.2, Color.RED, Color.RED)
@@ -115,13 +117,20 @@ func friction(collision_point: Vector3):
 		DebugDraw3D.draw_arrow(point, point + (-direction * force) / car.mass, Color.SANDY_BROWN, 0.1, true)
 
 
-func lateral_force(delta: float, collision_point: Vector3):
+func lateral_force(delta: float, collision_point: Vector3):	
+	return
+	if car.steering_input != 0:
+		pass
+	
 	var direction := global_basis.x
 	var tire_word_vel := get_point_velocity(global_position)
 	var lateral_vel := direction.dot(tire_word_vel)
 	
 	var disared_vel_change := -lateral_vel * tire_grip
 	var force = disared_vel_change / delta
+	
+	if abs(lateral_vel) < 0.05:
+		return
 	
 	car.apply_force(direction * force, collision_point - car.global_position)
 	
@@ -132,3 +141,21 @@ func lateral_force(delta: float, collision_point: Vector3):
 
 func get_point_velocity(point: Vector3) -> Vector3:
 	return car.linear_velocity + car.angular_velocity.cross(point - car.global_position)
+
+
+func steering_friction(delta: float, collision_point: Vector3):	
+	var direction := global_basis.x
+	var tire_word_vel := get_point_velocity(global_position)
+	var steering_vel := direction.dot(tire_word_vel) 
+	var acceleration = steering_vel / delta
+	
+	if abs(steering_vel) < 0.05:
+		return
+	
+	var force = acceleration * car.mass / 80
+	
+	car.apply_force(-direction * force, collision_point - car.global_position)
+	
+	if car.debug:
+		var point = get_wheel_point(collision_point)
+		DebugDraw3D.draw_arrow(point, point + (direction * force) / car.mass, Color.BLACK, 0.1, true)

@@ -2,6 +2,8 @@ extends RigidBody3D
 class_name Car
 
 const MS_TO_KMS := 3.6
+const HP_TO_NMS := 745
+
 
 @export 
 var suspension_rest_distance: float = 0.5
@@ -14,9 +16,11 @@ var wheel_radius: float = 0.33
 
 @export
 var engine_power: float
+@export
+var max_speed: float
 
 @export
-var max_steering_angle: float = 30.0
+var max_steering_angle: Curve
 @export
 var steering_speed: float = 10
 
@@ -32,14 +36,14 @@ var steering_angle: float
 
 
 func _ready():
-	max_steering_angle = deg_to_rad(max_steering_angle)
+	engine_power = engine_power * (HP_TO_NMS / 7.3)
 	set_debug(debug)
 
 
 func _process(_delta):
 	axel_input = Input.get_axis("backward", "forward")
 	steering_input = Input.get_axis("turn_right", "turn_left")
-	steering_angle = max_steering_angle * steering_input
+	steering_angle = deg_to_rad(max_steering_angle.sample(get_car_speed_kms()/max_speed)) * steering_input
 	
 	if speedometer != null:
 		speedometer.set_speed(get_car_speed_kms())

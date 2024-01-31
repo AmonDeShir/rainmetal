@@ -128,9 +128,9 @@ collision_layer = 5
 shape = SubResource("ConcavePolygonShape3D_k7eye")
 
 [node name="Player" parent="." instance=ExtResource("4_5u6e6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3.76599, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.00487, -3)
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
-transform = Transform3D(0.267238, 0, 0.96363, 0, 1, 0, -0.96363, 0, 0.267238, 11.3694, 5.61683, -1.19929)
+transform = Transform3D(-0.161604, -0.871342, 0.463301, 0, 0.469472, 0.882948, -0.986856, 0.142688, -0.0758684, 11.369, 12.877, -1.199)
 script = ExtResource("3_5dlso")
 target = NodePath("../Player")
