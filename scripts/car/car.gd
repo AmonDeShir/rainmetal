@@ -1,6 +1,8 @@
 extends RigidBody3D
 class_name Car
 
+const MS_TO_KMS := 3.6
+
 @export 
 var suspension_rest_distance: float = 0.5
 @export 
@@ -19,11 +21,15 @@ var max_steering_angle: float = 30.0
 var steering_speed: float = 10
 
 @export
+var speedometer: Speedometer
+
+@export
 var debug: bool = false
 
 var axel_input: float
 var steering_input: float
 var steering_angle: float
+
 
 func _ready():
 	max_steering_angle = deg_to_rad(max_steering_angle)
@@ -34,6 +40,9 @@ func _process(_delta):
 	axel_input = Input.get_axis("backward", "forward")
 	steering_input = Input.get_axis("turn_right", "turn_left")
 	steering_angle = max_steering_angle * steering_input
+	
+	if speedometer != null:
+		speedometer.set_speed(get_car_speed_kms())
 
 
 func _physics_process(delta):
@@ -59,9 +68,16 @@ func set_debug(value: bool, node: Node3D = self):
 		debug = value
 	
 	for child in node.get_children():
-		if child.name == "mesh" or child.name == "wheels_mesh":
+		if child.name == "mesh":
 			child.visible = !value
 		elif child.name == "debug_mesh":
 			child.visible = value
 		else:
 			set_debug(value, child)
+
+
+func get_car_speed_ms():
+	return abs(linear_velocity.z)
+
+func get_car_speed_kms():
+	return abs(linear_velocity.z * MS_TO_KMS)

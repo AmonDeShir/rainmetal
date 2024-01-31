@@ -16,4 +16,5 @@ offset_bottom = 40.0
 
 [node name="Speedometer" parent="UI" instance=ExtResource("3_0jgqd")]
 
-[node name="car" parent="." instance=ExtResource("3_w0ach")]
+[node name="car" parent="." node_paths=PackedStringArray("speedometer") instance=ExtResource("3_w0ach")]
+speedometer = NodePath("../UI/Speedometer")

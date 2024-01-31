@@ -30,6 +30,19 @@ func _process(delta: float):
 			rotation.y = lerpf(rotation.y, car.steering_angle, car.steering_speed * delta)
 		else:
 			rotation.y = lerpf(rotation.y, car.steering_angle, car.steering_speed * 2 * delta)
+	
+	process_wheel_visuals(delta)
+
+
+func process_wheel_visuals(delta: float):
+	var collision_point := get_collision_point()
+	var point := get_wheel_point(collision_point)
+	
+	$mesh.global_position.y = collision_point.y + car.wheel_radius
+	
+	var speed = car.get_car_speed_ms() / (2 * PI * car.wheel_radius)
+	var wheel_rotation_angle = speed * 2 * PI * delta
+	$mesh.rotate_x(-wheel_rotation_angle)
 
 
 func _physics_process(delta: float):
