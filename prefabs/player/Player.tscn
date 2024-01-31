@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_7qxo0"]
 [ext_resource type="PackedScene" uid="uid://dmqo1ribrrv7u" path="res://ui/speedometer/speedometer.tscn" id="3_0jgqd"]
-[ext_resource type="PackedScene" uid="uid://4ii4pvkby43x" path="res://prefabs/car/test_car/test_car.tscn" id="3_6yhx2"]
+[ext_resource type="PackedScene" uid="uid://do340ick801xw" path="res://prefabs/car/ural-4320/ural-4230.tscn" id="3_w0ach"]
 
 [node name="Player" type="Node3D" node_paths=PackedStringArray("car")]
 script = ExtResource("1_7qxo0")
@@ -16,4 +16,4 @@ offset_bottom = 40.0
 
 [node name="Speedometer" parent="UI" instance=ExtResource("3_0jgqd")]
 
-[node name="car" parent="." instance=ExtResource("3_6yhx2")]
+[node name="car" parent="." instance=ExtResource("3_w0ach")]
