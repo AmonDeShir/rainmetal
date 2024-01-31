@@ -27,6 +27,7 @@ var steering_angle: float
 
 func _ready():
 	max_steering_angle = deg_to_rad(max_steering_angle)
+	set_debug(debug)
 
 
 func _process(_delta):
@@ -45,3 +46,22 @@ func unflip(delta: float):
 	
 	var rot_speed = lerpf(0.001, 0.01, rad_to_deg(rotation.z)/90) * mass * delta
 	rotation.z = lerp_angle(rotation.z, 0,  rot_speed)
+
+
+func _input(event):
+	if (event.is_action("debug") and event.is_released()):
+		debug = !debug
+		set_debug(debug, self)
+
+
+func set_debug(value: bool, node: Node3D = self):
+	if node == self:
+		debug = value
+	
+	for child in node.get_children():
+		if child.name == "mesh" or child.name == "wheels_mesh":
+			child.visible = !value
+		elif child.name == "debug_mesh":
+			child.visible = value
+		else:
+			set_debug(value, child)
