@@ -11,17 +11,31 @@ var tire_grip: float = 2.0
 
 var car: Car
 
-var previus_spring_length := 0.0
+var previus_spring_length: float
+var power_timer := 0.0
 
 func _ready():
 	car = get_parent().get_parent().car
 	add_exception(car)
+	previus_spring_length = car.suspension_rest_distance / 3
+	
 	
 	if not use_as_steering:
 		$debug_mesh.hide()
  
 
 func _process(delta: float):
+	if car.axel_input != 0:
+		power_timer += delta
+		print(power_timer, " inc?")
+		if power_timer >= 10:
+			power_timer = 10
+		
+	else:
+		power_timer = 0
+	
+	print(power_timer, " axis: " , car.axel_input)
+	
 	# wheel rotation
 	if use_as_steering != STEERING_TYPE.NONE:
 		$debug_mesh.visible = car.debug
@@ -52,10 +66,10 @@ func _physics_process(delta: float):
 		var collision_point := get_collision_point()
 		
 		suspension(delta, collision_point)
+		steering_friction(delta, collision_point)
 		acceleration(collision_point)
 		friction(collision_point)
-		lateral_force(delta, collision_point)
-		steering_friction(delta, collision_point)
+		#lateral_force(delta, collision_point)
 
 
 func suspension(delta: float, raycast_dest: Vector3):
@@ -64,7 +78,7 @@ func suspension(delta: float, raycast_dest: Vector3):
 		var raycast_origin := global_position
 		var distance := raycast_dest.distance_to(raycast_origin)
 
-		var spring_length := clampf(distance - car.wheel_radius, 0, car.suspension_rest_distance)
+		var spring_length := clampf(distance - car.wheel_radius, 0.2, car.suspension_rest_distance)
 		var spring_force := car.spring_strength * (car.suspension_rest_distance - spring_length)
 		var spring_velocity := (previus_spring_length - spring_length) / delta
 		
@@ -78,10 +92,9 @@ func suspension(delta: float, raycast_dest: Vector3):
 		car.apply_force(susp_direction * suspension_force, point - car.global_position)
 		
 		if car.debug:
+			DebugDraw3D.draw_line(point, point + Vector3(0, spring_length, 0), Color.BLACK, 0)
+			DebugDraw3D.draw_arrow(global_position, to_global(position + Vector3(-position.x, (spring_velocity), -position.z)), Color.PINK, 0.1, true)
 			DebugDraw3D.draw_arrow(global_position, to_global(position + Vector3(-position.x, (suspension_force.y / (2 * car.mass)), -position.z)), Color.YELLOW, 0.1, true)
-			
-			# Raycast
-			DebugDraw3D.draw_line_hit_offset(global_position, to_global(position + Vector3(-position.x, -1 / car.mass, -position.z)), true, distance, 0.2, Color.RED, Color.RED)
 
 
 func acceleration(collision_point: Vector3):
@@ -90,7 +103,7 @@ func acceleration(collision_point: Vector3):
 	
 	var direction := -global_basis.z
 	
-	var torque := car.axel_input * car.engine_power
+	var torque := car.axel_input * (car.engine_power * power_timer / 10)
 	var point := get_wheel_point(collision_point)
 	
 	car.apply_force(direction * torque, point - car.global_position)
@@ -117,28 +130,6 @@ func friction(collision_point: Vector3):
 		DebugDraw3D.draw_arrow(point, point + (-direction * force) / car.mass, Color.SANDY_BROWN, 0.1, true)
 
 
-func lateral_force(delta: float, collision_point: Vector3):	
-	return
-	if car.steering_input != 0:
-		pass
-	
-	var direction := global_basis.x
-	var tire_word_vel := get_point_velocity(global_position)
-	var lateral_vel := direction.dot(tire_word_vel)
-	
-	var disared_vel_change := -lateral_vel * tire_grip
-	var force = disared_vel_change / delta
-	
-	if abs(lateral_vel) < 0.05:
-		return
-	
-	car.apply_force(direction * force, collision_point - car.global_position)
-	
-	if car.debug:
-		var pos := global_transform.translated(Vector3(0, 1, 0)).origin
-		DebugDraw3D.draw_arrow(pos, pos + (direction * force) / car.mass, Color.SIENNA, 0.1, true)
-
-
 func get_point_velocity(point: Vector3) -> Vector3:
 	return car.linear_velocity + car.angular_velocity.cross(point - car.global_position)
 
@@ -159,3 +150,7 @@ func steering_friction(delta: float, collision_point: Vector3):
 	if car.debug:
 		var point = get_wheel_point(collision_point)
 		DebugDraw3D.draw_arrow(point, point + (direction * force) / car.mass, Color.BLACK, 0.1, true)
+
+
+func get_distance_to_ground() -> float:
+	return get_collision_point().distance_to(global_position)

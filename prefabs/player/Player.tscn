@@ -17,6 +17,4 @@ offset_bottom = 40.0
 [node name="Speedometer" parent="UI" instance=ExtResource("3_0jgqd")]
 
 [node name="car" parent="." node_paths=PackedStringArray("speedometer") instance=ExtResource("3_w0ach")]
-spring_strength = 37225.0
-spring_damper = 40000.0
 speedometer = NodePath("../UI/Speedometer")

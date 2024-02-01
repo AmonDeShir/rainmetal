@@ -26,6 +26,8 @@ size = Vector3(0.1, 0.1, 1)
 mass = 0.01
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -1.5, 0)
+max_contacts_reported = 10
+contact_monitor = true
 script = ExtResource("1_b6ibe")
 spring_strength = 10000.0
 spring_damper = 3000.0
@@ -91,3 +93,6 @@ tire_grip = 10.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.579023, 0)
 mesh = SubResource("BoxMesh_4g0qv")
 skeleton = NodePath("../../FL_wheel")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

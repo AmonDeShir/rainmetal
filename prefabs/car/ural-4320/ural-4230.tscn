@@ -9,7 +9,7 @@
 
 [sub_resource type="Curve" id="Curve_oqn6y"]
 max_value = 80.0
-_data = [Vector2(0, 80), 0.0, 0.0, 0, 0, Vector2(0.35, 70), 0.0, 0.0, 0, 0, Vector2(1, 10), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 80), 0.0, 0.0, 0, 0, Vector2(0.324859, 58.8106), -255.618, -255.618, 0, 0, Vector2(1, 10), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s3o0e"]
@@ -63,23 +63,25 @@ material = SubResource("StandardMaterial3D_dj37k")
 size = Vector3(0.1, 0.1, 1)
 
 [node name="Ural-4230" type="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0684081, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.192311, 0)
 mass = 5595.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -0.7, 0)
+max_contacts_reported = 1
+contact_monitor = true
 script = ExtResource("1_hw1xt")
 suspension_rest_distance = 0.75
-spring_strength = 74450.0
-spring_damper = 80000.0
+spring_strength = 35000.0
+spring_damper = 4000.0
 wheel_radius = 0.5
-engine_power = 240.0
+engine_power = 120.0
 max_speed = 85.0
 max_steering_angle = SubResource("Curve_oqn6y")
 steering_speed = 5.0
 debug = true
 
 [node name="cabin" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69151, -2.86683)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69151, -2.53835)
 shape = SubResource("BoxShape3D_s3o0e")
 script = ExtResource("4_pwh1h")
 mass = 1900.0
@@ -121,7 +123,7 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -0.257, -0.192865, 0.0227668)
 transform = Transform3D(-2.1, 0, -1.83588e-07, 0, 2.1, 0, 1.83588e-07, 0, -2.1, 0, 0, 0)
 
 [node name="body" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69151, 0.803562)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69151, 1.13204)
 shape = SubResource("BoxShape3D_iwd3k")
 script = ExtResource("4_pwh1h")
 mass = 950.0
@@ -183,3 +185,6 @@ mesh = SubResource("BoxMesh_x30kr")
 
 [node name="mesh" parent="body/wheels/wheel_l1" instance=ExtResource("3_4s8oo")]
 transform = Transform3D(-2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 0.25685, -0.275895, 0.01275)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
