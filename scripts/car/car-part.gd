@@ -16,3 +16,13 @@ func _enter_tree():
 
 func _ready():
 	car.mass += mass
+
+
+func get_wheels() -> Array[Wheel]:
+	var wheels: Array[Wheel] = []
+	
+	for child in $wheels.get_children():
+		if child is Wheel:
+			wheels.append(child)
+	
+	return wheels

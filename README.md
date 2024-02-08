@@ -20,8 +20,10 @@ This project is licensed under the [MIT License](LICENSE). Refer to the LICENSE 
 - [Jolt Physics Engine](https://github.com/jrouwe/JoltPhysics)
 - [Godot Jolt](https://github.com/godot-jolt/godot-jolt)
 - [Debug Draw 3D](https://github.com/DmitriySalnikov/godot_debug_draw_3d)
+- [Easy Charts](https://github.com/fenix-hub/godot-engine.easy-charts)
 - [Simple Free-Look Camera](https://github.com/richardhyy/simple-free-look-camera-4)
-- [Car physic is based on thalesr's code](https://www.youtube.com/@thalesr6916)
+- [Car suspension is based on thalesr's code](https://www.youtube.com/@thalesr6916)
+- [Car controller is based on tomaga's DriftCarG4](https://notabug.org/tomaga/DriftCarG4/src/master/Drift%20Car)
 
 ## Project Status
 The game is currently in the early stages of development and is not yet playable. It is not considered pre-alpha or a demo; development has recently commenced. Stay tuned for updates as we progress towards a playable version.
