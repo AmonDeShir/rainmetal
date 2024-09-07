@@ -1,0 +1,10 @@
+[package]
+name = "ui"
+edition.workspace = true
+version.workspace = true
+authors.workspace = true
+
+[dependencies]
+share.workspace = true
+bevy.workspace = true
+bevy_lunex.workspace = true

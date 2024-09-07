@@ -1,0 +1,54 @@
+[workspace]
+resolver = "2"
+members = [ "client", "server", "share", "ui"]
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[workspace.package]
+version = "0.0.1"
+edition = "2021"
+authors = ["Amon De Shir"]
+
+[workspace.dependencies]
+client = { path = "client" }
+server = { path = "server" }
+share = { path = "share" }
+ui = { path = "ui" }
+bevy = { version = "0.14.1", default_features = false, features = [
+  "animation",
+  "bevy_asset",
+  "bevy_state",
+  "bevy_audio",
+  "bevy_color",
+  "bevy_gilrs",
+  "bevy_scene",
+  "bevy_winit",
+  "bevy_core_pipeline",
+  "bevy_pbr",
+  "bevy_gltf",
+  "bevy_render",
+  "bevy_sprite",
+  "bevy_text",
+  "multi_threaded",
+  "png",
+  "hdr",
+  "vorbis",
+  "x11",
+  "bevy_gizmos",
+  "android_shared_stdcxx",
+  "tonemapping_luts",
+  "smaa_luts",
+  "default_font",
+  "webgl2",
+  "sysinfo_plugin",
+]}
+bevy_animation = { version = "0.14.1" }
+bevy_lunex = { version = "0.2.3" }
+rand = { version = "0.8.5" }
+serde = { version = "1.0.209", features = ["derive"]}
+clap = { version = "4.5.16", features = ["derive"] }
+clap_derive = { version = "4.5.13" }

@@ -1,0 +1,9 @@
+[package]
+name = "server"
+edition.workspace = true
+version.workspace = true
+authors.workspace = true
+
+[dependencies]
+bevy.workspace = true
+share.workspace = true

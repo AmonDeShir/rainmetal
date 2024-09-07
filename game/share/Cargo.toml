@@ -1,0 +1,8 @@
+[package]
+name = "share"
+edition.workspace = true
+version.workspace = true
+authors.workspace = true
+
+[dependencies]
+bevy.workspace = true

@@ -1,0 +1,10 @@
+[package]
+name = "client"
+edition.workspace = true
+version.workspace = true
+authors.workspace = true
+
+[dependencies]
+bevy.workspace = true
+ui.workspace = true
+share.workspace = true
