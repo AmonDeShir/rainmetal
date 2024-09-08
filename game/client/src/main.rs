@@ -1,3 +1,11 @@
+use bevy::prelude::*;
+use ui::*;
+
 fn main() {
-    println!("Clients");
+    let mut app = App::new();
+
+    app.add_plugins(DefaultPlugins);
+    app.add_plugins(GameUIPlugin);
+
+    app.run();
 }

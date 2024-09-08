@@ -750,8 +750,7 @@ dependencies = [
 [[package]]
 name = "bevy_lunex"
 version = "0.2.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c2e83c1ce0e354a015068a5ca8a8341c112b8fc16740e7adff912b757eb72175"
+source = "git+https://github.com/bytestring-net/bevy_lunex#73a4302eca9807b3f567900112c48108d79862f4"
 dependencies = [
  "bevy",
  "bevy_mod_picking",
@@ -2495,8 +2494,7 @@ checksum = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
 [[package]]
 name = "lunex_engine"
 version = "0.2.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5194eed564455f4b2de78e73d9d030312218383ac8a6104d43e82e948d992c5e"
+source = "git+https://github.com/bytestring-net/bevy_lunex#73a4302eca9807b3f567900112c48108d79862f4"
 dependencies = [
  "bevy",
  "colored",

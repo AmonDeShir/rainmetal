@@ -18,7 +18,7 @@ client = { path = "client" }
 server = { path = "server" }
 share = { path = "share" }
 ui = { path = "ui" }
-bevy = { version = "0.14.1", default_features = false, features = [
+bevy = { version = "0.14.2", default-features = false, features = [
   "animation",
   "bevy_asset",
   "bevy_state",
@@ -46,9 +46,10 @@ bevy = { version = "0.14.1", default_features = false, features = [
   "webgl2",
   "sysinfo_plugin",
 ]}
-bevy_animation = { version = "0.14.1" }
-bevy_lunex = { version = "0.2.3" }
+
+bevy_lunex = { git = "https://github.com/bytestring-net/bevy_lunex", features = ["default"] }
 rand = { version = "0.8.5" }
 serde = { version = "1.0.209", features = ["derive"]}
 clap = { version = "4.5.16", features = ["derive"] }
 clap_derive = { version = "4.5.13" }
+bevy_mod_picking = { version = "0.20.1" }
