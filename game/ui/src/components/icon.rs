@@ -232,8 +232,8 @@ fn build_component(mut commands: Commands, assets: Res<AssetServer>, query: Quer
     }
 }
 
-pub struct CustomButtonPlugin;
-impl Plugin for CustomButtonPlugin {
+pub struct IconPlugin;
+impl Plugin for IconPlugin {
     fn build(&self, app: &mut App) {
         app
             .add_plugins(UiGenericPlugin::<IconUI>::new())
