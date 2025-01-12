@@ -13,6 +13,10 @@ MapData (
                     "wood": 100,
                     "fuel": 1000,
                 },
+                needs: Some({
+                    "food": 200,
+                    "fual": 500,
+                })
             )
         )),
         ((180, 170), Village (
@@ -26,6 +30,11 @@ MapData (
                     "wood": 50,
                     "fuel": 300,
                 },
+                needs: Some({
+                    "food": 30,
+                    "wood": 300,
+                    "fual": 100,
+                })
             )
         )),
     ]

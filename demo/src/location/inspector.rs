@@ -1,25 +1,25 @@
-use bevy_inspector_egui::bevy_egui::{egui::{self, CollapsingHeader}, EguiContexts};
-use bevy::prelude::*;
+use bevy_inspector_egui::{bevy_egui::{egui::{self, CollapsingHeader}, EguiContexts}, egui::Ui};
+use bevy::{prelude::*, utils::HashMap};
 
 use super::*;
-use crate::picking::Picked;
+use crate::{needs::Needs, picking::Picked};
 
-pub fn ui_show_picked_location(mut contexts: EguiContexts, query: Query<&Location, With<Picked>>) {
+pub fn ui_show_picked_location(mut contexts: EguiContexts, query: Query<(&Location, &Name, &LocalEconomy, &Storage, &Needs), With<Picked>>) {
     egui::Window::new("Picked location").default_open(false).show(contexts.ctx_mut(), |ui| {
-        let Ok(location) = query.get_single() else {
+        let Ok((location, name, economy, storage, needs)) = query.get_single() else {
             ui.label("Click a location to select it.");
 
             return;
         };
 
-        ui.label(location.name.clone());
+        ui.label(name.as_str());
         
         CollapsingHeader::new("Info")
             .default_open(true)
             .show(ui, |ui| {
                 ui.horizontal(|ui| {
                     ui.label("Name: ");
-                    ui.label(location.name.clone());
+                    ui.label(name.as_str());
                 });
 
                 ui.horizontal(|ui| {
@@ -28,41 +28,30 @@ pub fn ui_show_picked_location(mut contexts: EguiContexts, query: Query<&Locatio
                 });
             });
 
-        CollapsingHeader::new("Storage")
+
+        show_item_list("Storage", &storage.items, ui);
+        show_item_list("Needs", &needs.items, ui);
+
+
+        CollapsingHeader::new("Local Economy")
             .default_open(true)
             .show(ui, |ui| {
-                for (name, quantity) in location.storage.items.iter() {
-                    ui.horizontal(|ui| {
-                        ui.label(name);
-                        ui.label(quantity.to_string());
-                    });
-                }
-            });
-
-        CollapsingHeader::new("Market")
-            .default_open(true)
-            .show(ui, |ui| {
-                CollapsingHeader::new("Prices")
-                    .default_open(true)
-                    .show(ui, |ui| {
-                        for (name, price) in location.market.prices.iter() {
-                            ui.horizontal(|ui| {
-                                ui.label(name);
-                                ui.label(price.to_string());
-                            });
-                        }
-                    });    
-
-                CollapsingHeader::new("Storage")
-                    .default_open(true)
-                    .show(ui, |ui| {
-                        for (name, quantity) in location.market.storage.items.iter() {
-                            ui.horizontal(|ui| {
-                                ui.label(name);
-                                ui.label(quantity.to_string());
-                            });
-                        }
-                    });    
+                show_item_list("Sell Prices", &economy.sell_price, ui);
+                show_item_list("Buy Prices", &economy.buy_price, ui);
             });
     });
+}
+
+
+fn show_item_list(title: &str, items: &HashMap<String, i32>, ui: &mut Ui) {
+    CollapsingHeader::new(title)
+        .default_open(true)
+        .show(ui, |ui| {
+            for (name, quantity) in items.iter() {
+                ui.horizontal(|ui| {
+                    ui.label(name);
+                    ui.label(quantity.to_string());
+                });
+            }
+        });
 }

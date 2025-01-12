@@ -15,7 +15,7 @@ pub fn ui_init(mut commands: Commands) {
 
 pub fn ui_show_items(mut contexts: EguiContexts, mut state: ResMut<InspectorState>, items_handler: Res<ItemListHandle>, assets: Res<Assets<ItemList>>) {
     egui::Window::new("All Items").default_open(false).show(contexts.ctx_mut(), |ui| {
-        let Some(car) = assets.get(&items_handler.0) else {
+        let Some(item_list) = assets.get(&items_handler.0) else {
             ui.label("Loading items.ron...");
 
             return;
@@ -24,7 +24,7 @@ pub fn ui_show_items(mut contexts: EguiContexts, mut state: ResMut<InspectorStat
         let checkbox_changed = ui.checkbox( &mut state.default_show, "Show").changed();
 
 
-        for (name, item) in &car.items {
+        for (name, item) in &item_list.items {
 
             CollapsingHeader::new(name)
                 .default_open(state.default_show)
@@ -39,7 +39,13 @@ pub fn ui_show_items(mut contexts: EguiContexts, mut state: ResMut<InspectorStat
                         ui.label("Price: ");
                         ui.label(item.price.to_string());
                     });
+
+                    ui.horizontal(|ui| {
+                        ui.label("Price Unstability: ");
+                        ui.label(item.price_unstability.to_string());
+                    });
                 });
         }
     });
 }
+

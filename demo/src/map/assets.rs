@@ -24,6 +24,7 @@ pub struct MapDataHandle(pub Handle<MapData>);
 pub struct LocationData {
     pub name: String,
     pub storage: HashMap<String, i32>,
+    pub needs: Option<HashMap<String, i32>,>,
     pub population: i32,
     pub money: i32,
     #[asset]

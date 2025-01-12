@@ -1,13 +1,15 @@
 //mod components;
 // mod miner;
 //mod systems;
-mod inventory;
+mod storage;
 mod location;
 mod driver;
 mod town;
 mod village;
 mod map;
 mod picking;
+mod local_economy;
+mod needs;
 
 use bevy::input::common_conditions::input_toggle_active;
 use bevy::remote::http::RemoteHttpPlugin;
@@ -15,10 +17,11 @@ use bevy::remote::RemotePlugin;
 use bevy::prelude::*;
 use bevy_dogoap::prelude::*;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use local_economy::LocalEconomyPlugin;
 use location::LocationPlugin;
 use map::MapPlugin;
 //use systems::*;
-use crate::inventory::InventoryPlugin;
+use crate::storage::StoragePlugin;
 //use crate::miner::MinerPlugin;
 
 pub fn startup(mut commands: Commands) {
@@ -43,8 +46,9 @@ fn main() {
 
     app.add_plugins(DogoapPlugin);
     app.add_plugins(LocationPlugin);
-    app.add_plugins(InventoryPlugin);
+    app.add_plugins(StoragePlugin);
     app.add_plugins(MapPlugin);
+    app.add_plugins(LocalEconomyPlugin);
    // app.add_plugins(MinerPlugin);
 
     app.add_systems(Startup, startup);

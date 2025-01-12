@@ -11,15 +11,7 @@ use serde::Deserialize;
 pub struct ItemDefinition {
     pub name: String,
     pub price: i32,
-}
-
-impl ItemDefinition {
-    pub fn new(name: &str, price: i32) -> ItemDefinition {
-        ItemDefinition  {
-            name: name.to_string(),
-            price,
-        }
-    }
+    pub price_unstability: f32,
 }
 
 #[derive(Asset, TypePath, RonAsset, Deserialize)]
@@ -29,31 +21,37 @@ pub struct ItemList {
 
 #[derive(Resource, Default, Reflect)]
 #[reflect(Resource)]
-struct ItemListHandle(Handle<ItemList>);
+pub struct ItemListHandle(pub Handle<ItemList>);
 
 #[derive(Component, Reflect)]
-pub struct Inventory {
+pub struct Storage {
     pub items: HashMap<String, i32>,
 }
 
-impl Default for Inventory {
+impl Default for Storage {
     fn default() -> Self {
-        Inventory {
+        Storage {
             items: HashMap::new(),
         }
     }
 }
 
-impl Inventory {
-    pub fn quantity(&self, name: &str) -> i32 {
+pub trait ItemContainer {
+    fn quantity(&self, name: &str) -> i32;
+    fn add(&mut self, name: &str);
+    fn remove(&mut self, name: &str) -> Option<()>;
+}
+
+impl ItemContainer for Storage {
+    fn quantity(&self, name: &str) -> i32 {
         self.items.get(name).cloned().unwrap_or(0)
     }
 
-    pub fn add(&mut self, name: &str) {
+    fn add(&mut self, name: &str) {
         self.items.insert(name.to_string(), self.quantity(name) + 1);
     }
 
-    pub fn remove(&mut self, name: &str) -> Option<()> {
+    fn remove(&mut self, name: &str) -> Option<()> {
         if self.quantity(name) > 0 {
             self.items.remove(name);
             return Some(());
@@ -63,15 +61,15 @@ impl Inventory {
     }
 }
 
-pub struct InventoryPlugin;
+pub struct StoragePlugin;
 
-impl Plugin for InventoryPlugin {
+impl Plugin for StoragePlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(RonAssetPlugin::<ItemList>::default());
         app.init_resource::<ItemListHandle>();
         app.add_systems(Startup, setup);
         app.add_systems(Startup, ui_init);
-        app.register_type::<Inventory>();
+        app.register_type::<Storage>();
         app.register_type::<ItemListHandle>();
         app.add_systems(Update, ui_show_items);
     }

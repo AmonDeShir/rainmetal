@@ -2,19 +2,23 @@ ItemList(
     items: {
         "food": ItemDefinition (
             name: "Food",
-            price: 20
+            price: 20,
+            price_unstability: 0.5,
         ),
         "fuel": ItemDefinition (
             name: "Fuel",
             price: 6,
+            price_unstability: 0.5,
         ),
         "wood": ItemDefinition (
             name: "Wood",
-            price: 60
+            price: 60,
+            price_unstability: 0.5,
         ),
         "scrap": ItemDefinition (
             name: "Scrap",
-            price: 150
+            price: 150,
+            price_unstability: 0.5,
         ),
     },
 )
