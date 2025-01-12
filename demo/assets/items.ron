@@ -1,0 +1,20 @@
+ItemList(
+    items: {
+        "food": ItemDefinition (
+            name: "Food",
+            price: 20
+        ),
+        "fuel": ItemDefinition (
+            name: "Fuel",
+            price: 6,
+        ),
+        "wood": ItemDefinition (
+            name: "Wood",
+            price: 60
+        ),
+        "scrap": ItemDefinition (
+            name: "Scrap",
+            price: 150
+        ),
+    },
+)
