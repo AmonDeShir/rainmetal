@@ -15,6 +15,7 @@ use bevy::remote::RemotePlugin;
 use bevy::prelude::*;
 use bevy_dogoap::prelude::*;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use location::LocationPlugin;
 use map::MapPlugin;
 //use systems::*;
 use crate::inventory::InventoryPlugin;
@@ -41,6 +42,7 @@ fn main() {
     app.add_plugins(WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::KeyI))); 
 
     app.add_plugins(DogoapPlugin);
+    app.add_plugins(LocationPlugin);
     app.add_plugins(InventoryPlugin);
     app.add_plugins(MapPlugin);
    // app.add_plugins(MinerPlugin);

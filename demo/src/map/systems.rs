@@ -11,9 +11,7 @@ pub fn load_map(
     mut commands: Commands,
     query: Query<(Entity, &Children), With<Map>>,
 ) {
-    for ev in ev_asset.read() {
-        println!("{:?}", ev);
-        
+    for ev in ev_asset.read() {        
         match ev {
             AssetEvent::LoadedWithDependencies { id } => {
                 let map_data: &MapData = assets_map.get(*id).unwrap();
@@ -68,9 +66,7 @@ pub fn load_map(
     }
 }
 
-fn create_location<'a>(location: &LocationData, asset_server: &Res<AssetServer>, (pos_x, pos_y): &(i32, i32), commands: &mut EntityCommands) {
-   println!("shandle: {}", location.image.path);
-   
+fn create_location<'a>(location: &LocationData, asset_server: &Res<AssetServer>, (pos_x, pos_y): &(i32, i32), commands: &mut EntityCommands) {   
    commands.insert((
         Sprite::from_image(asset_server.load(location.image.path.to_string())),        
         Transform::from_xyz(*pos_x as f32, *pos_y as f32, 5.),

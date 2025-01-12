@@ -1,8 +1,10 @@
 use bevy::prelude::*;
 use bevy::utils::HashMap;
+use inspector::ui_show_picked_location;
 use crate::inventory::Inventory;
 
 mod systems;
+mod inspector;
 
 #[derive(Default)]
 pub struct Market {
@@ -32,5 +34,14 @@ impl Location {
 impl Default for Location {
     fn default() -> Self {
         Location::new("unnamed location", 0)
+    }
+}
+
+
+pub struct LocationPlugin;
+
+impl Plugin for LocationPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_systems(Update, ui_show_picked_location);
     }
 }
