@@ -7,6 +7,7 @@ mod driver;
 mod town;
 mod village;
 mod map;
+mod picking;
 
 use bevy::input::common_conditions::input_toggle_active;
 use bevy::remote::http::RemoteHttpPlugin;

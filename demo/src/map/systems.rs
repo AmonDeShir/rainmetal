@@ -1,8 +1,8 @@
-use bevy::{prelude::*, text::cosmic_text::ttf_parser::loca};
+use bevy::prelude::*;
 
-use crate::{inventory::Inventory, location::Location, town::Town, village::Village};
+use crate::{inventory::Inventory, location::Location, picking::{pick_on, recolor_on, Picked}, town::Town, village::Village};
 
-use super::{assets::*, Map};
+use super::{assets::*, Map, MapPickedIncicator};
 
 pub fn load_map(
     mut ev_asset: EventReader<AssetEvent<MapData>>,
@@ -42,14 +42,18 @@ pub fn load_map(
                 for (pos, location_data) in map_data.items.iter() {
                     match location_data {
                         MapItems::Village(location) => {
-                            let mut entity = commands.spawn(Village );
+                            let mut entity = commands.spawn(Village);
                             create_location(location, &asset_server, pos, &mut entity);
+                            make_entity_interactable(&mut entity);
+                            
                             children.push(entity.id());
                         }
 
                         MapItems::Town(location) => {
-                            let mut entity = commands.spawn(Town );
+                            let mut entity = commands.spawn(Town);
                             create_location(location, &asset_server, pos, &mut entity);
+                            make_entity_interactable(&mut entity);
+
                             children.push(entity.id());
                         }
 
@@ -82,6 +86,38 @@ fn create_location<'a>(location: &LocationData, asset_server: &Res<AssetServer>,
     ));
 }
 
+fn make_entity_interactable(entity: &mut EntityCommands) {
+    entity.observe(recolor_on::<Pointer<Over>>(Color::srgb(1.0, 0.66, 0.0)));
+    entity.observe(recolor_on::<Pointer<Out>>(Color::srgb(1.0, 1.0, 1.0)));
+    entity.observe(pick_on::<Pointer<Up>>());
+}
+
 pub fn setup(server: Res<AssetServer>, mut handler: ResMut<MapDataHandle>) {
     handler.0 = server.load("map.ron");
+}
+
+
+pub fn on_picked_location(trigger: Trigger<OnAdd, Picked>, query: Query<Entity, With<Location>>, mut commands: Commands, assets: Res<AssetServer>) {
+    let Ok(entity) = query.get(trigger.entity()) else {
+        return;
+    };
+
+    let indicator = commands.spawn((
+        MapPickedIncicator,
+        Sprite::from_image(assets.load("images/selected.png")),
+        Transform::from_xyz(0.0, 0.0, 10.0),
+    )).id();
+
+    commands.entity(entity).add_child(indicator);
+}
+
+pub fn on_unpicked_location(trigger: Trigger<OnRemove, Picked>, query: Query<(Entity, &Parent), With<MapPickedIncicator>>, mut commands: Commands) {
+    for (entity, parent) in query.iter() {
+        if parent.get() == trigger.entity() {
+            let mut child = commands.entity(entity);
+
+            child.remove_parent();
+            child.despawn();
+        }
+    }
 }
