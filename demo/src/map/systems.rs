@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{location::Location, needs::Needs, picking::{pick_on, recolor_on, Picked}, storage::Storage, town::Town, village::Village};
+use crate::{location::Location, picking::{pick_on, recolor_on, Picked}, storage::Storage, town::Town, village::Village};
 use super::{assets::*, Map, MapPickedIncicator};
 
 pub fn load_map(
@@ -66,21 +66,17 @@ pub fn load_map(
 }
 
 fn create_location<'a>(location: &LocationData, asset_server: &Res<AssetServer>, (pos_x, pos_y): &(i32, i32), commands: &mut EntityCommands) {   
-    let needs = match &location.needs {
-        Some(data) => Needs {
-            items: data.clone() 
-        },
-        None => Needs::default()
-    };
-   
-   
    commands.insert((
         Sprite::from_image(asset_server.load(location.image.path.to_string())),        
         Transform::from_xyz(*pos_x as f32, *pos_y as f32, 5.),
         Name::new(location.name.to_string()),
-        Location { population: location.population },
         Storage { items: location.storage.clone() },
-        needs,
+        Location { 
+            population: location.population,
+            consumption: location.consumption.clone(),
+            production: location.production.clone(),
+            surplus_factor: location.surplus_factor.clone(),
+        },
     ));
 }
 

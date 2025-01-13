@@ -13,10 +13,17 @@ MapData (
                     "wood": 100,
                     "fuel": 1000,
                 },
-                needs: Some({
-                    "food": 200,
-                    "fual": 500,
-                })
+                consumption: {
+                    "food": 3.0,
+                    "fual": 15.0,
+                },
+                production: {
+                    "wood": 100,
+                },
+                surplus_factor: {
+                    "food": 1.5,
+                    "fual": 2.0,
+                }
             )
         )),
         ((180, 170), Village (
@@ -30,11 +37,18 @@ MapData (
                     "wood": 50,
                     "fuel": 300,
                 },
-                needs: Some({
-                    "food": 30,
-                    "wood": 300,
-                    "fual": 100,
-                })
+                production: {
+                    "food": 150,
+                },
+                consumption: {
+                    "food": 3.0,
+                    "fual": 15.0,
+                    "wood": 0.5
+                },
+                surplus_factor: {
+                    "food": 1.5,
+                    "fual": 2.0,
+                }
             )
         )),
     ]

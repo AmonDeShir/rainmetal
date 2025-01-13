@@ -31,7 +31,9 @@ pub fn ui_show_picked_location(mut contexts: EguiContexts, query: Query<(&Locati
 
         show_item_list("Storage", &storage.items, ui);
         show_item_list("Needs", &needs.items, ui);
-
+        show_item_list("Production", &location.production, ui);
+        show_item_list("Consumption", &location.consumption, ui);
+        show_item_list("Surplus Factor", &location.surplus_factor, ui);
 
         CollapsingHeader::new("Local Economy")
             .default_open(true)
@@ -43,7 +45,7 @@ pub fn ui_show_picked_location(mut contexts: EguiContexts, query: Query<(&Locati
 }
 
 
-fn show_item_list(title: &str, items: &HashMap<String, i32>, ui: &mut Ui) {
+fn show_item_list<T: ToString>(title: &str, items: &HashMap<String, T>, ui: &mut Ui) {
     CollapsingHeader::new(title)
         .default_open(true)
         .show(ui, |ui| {

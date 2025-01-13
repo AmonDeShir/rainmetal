@@ -7,7 +7,7 @@ use ron_asset_manager::prelude::*;
 use serde::Deserialize;
 
 
-#[derive(RonAsset, Deserialize, Reflect, Debug)]
+#[derive(RonAsset, Deserialize, Debug)]
 pub struct ItemDefinition {
     pub name: String,
     pub price: i32,
@@ -19,11 +19,10 @@ pub struct ItemList {
     pub items: HashMap<String, ItemDefinition>,
 }
 
-#[derive(Resource, Default, Reflect)]
-#[reflect(Resource)]
+#[derive(Resource, Default)]
 pub struct ItemListHandle(pub Handle<ItemList>);
 
-#[derive(Component, Reflect)]
+#[derive(Component)]
 pub struct Storage {
     pub items: HashMap<String, i32>,
 }
@@ -38,8 +37,11 @@ impl Default for Storage {
 
 pub trait ItemContainer {
     fn quantity(&self, name: &str) -> i32;
-    fn add(&mut self, name: &str);
-    fn remove(&mut self, name: &str) -> Option<()>;
+    fn add(&mut self, name: &str, quantity: i32);
+    fn remove(&mut self, name: &str, quantity: i32, force: bool) -> Option<()>;
+    fn set(&mut self, name: &str, quantity: i32);
+    fn add_one(&mut self, name: &str);
+    fn remove_one(&mut self, name: &str) -> Option<()>;
 }
 
 impl ItemContainer for Storage {
@@ -47,13 +49,33 @@ impl ItemContainer for Storage {
         self.items.get(name).cloned().unwrap_or(0)
     }
 
-    fn add(&mut self, name: &str) {
-        self.items.insert(name.to_string(), self.quantity(name) + 1);
+    fn set(&mut self, name: &str, quantity: i32) {
+        self.items.insert(name.to_string(), quantity);
     }
 
-    fn remove(&mut self, name: &str) -> Option<()> {
+
+    fn add(&mut self, name: &str, quantity: i32) {
+        self.set(name, self.quantity(name) + quantity);
+    }
+
+    fn add_one(&mut self, name: &str) {
+        self.add(name, 1);
+    }
+
+    fn remove_one(&mut self, name: &str) -> Option<()> {
         if self.quantity(name) > 0 {
-            self.items.remove(name);
+            self.add(name, -1);
+
+            return Some(());
+        }
+
+        None
+    }
+
+    fn remove(&mut self, name: &str, quantity: i32, force: bool) -> Option<()> {
+        if self.quantity(name) > 0 || force {
+            self.set(name, (self.quantity(name) - quantity).max(0));
+
             return Some(());
         }
 
@@ -69,8 +91,6 @@ impl Plugin for StoragePlugin {
         app.init_resource::<ItemListHandle>();
         app.add_systems(Startup, setup);
         app.add_systems(Startup, ui_init);
-        app.register_type::<Storage>();
-        app.register_type::<ItemListHandle>();
         app.add_systems(Update, ui_show_items);
     }
 }
