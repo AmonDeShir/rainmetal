@@ -5,7 +5,8 @@ use serde::Deserialize;
 #[derive(RonAsset, Deserialize, Debug)]
 pub enum MapItems {
     Village(LocationData),
-    Town(LocationData)
+    Town(LocationData),
+    Driver(DriverData),
 }
 
 #[derive(Asset, RonAsset, Deserialize, TypePath, Debug)]
@@ -19,7 +20,6 @@ pub struct MapData {
 #[derive(Resource, Default)]
 pub struct MapDataHandle(pub Handle<MapData>);
 
-
 #[derive(Asset, RonAsset, Deserialize, TypePath, Debug)]
 pub struct LocationData {
     pub name: String,
@@ -29,6 +29,13 @@ pub struct LocationData {
     pub production: HashMap<String, i32>,
     pub population: i32,
     pub money: i32,
+    #[asset]
+    pub image: Shandle<Image>,
+}
+
+#[derive(Asset, RonAsset, Deserialize, TypePath, Debug)]
+pub struct DriverData {
+    pub name: String,
     #[asset]
     pub image: Shandle<Image>,
 }
