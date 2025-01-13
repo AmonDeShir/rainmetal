@@ -1,0 +1,55 @@
+MapData (
+    name: "Krai",
+    image: "images/map.png",
+    items: [
+       ((-126, 97), Town (
+            LocationData (
+                name: "Librum",
+                population: 200,
+                money: 10000,
+                image: "images/town.png",
+                storage: {
+                    "food": 300,
+                    "wood": 100,
+                    "fuel": 1000,
+                },
+                consumption: {
+                    "food": 3.0,
+                    "fual": 15.0,
+                },
+                production: {
+                    "wood": 100,
+                },
+                surplus_factor: {
+                    "food": 1.5,
+                    "fual": 2.0,
+                }
+            )
+        )),
+        ((180, 170), Village (
+            LocationData (
+                name: "Gluthe",
+                population: 10,
+                money: 500,
+                image: "images/village.png",
+                storage: {
+                    "food": 500,
+                    "wood": 50,
+                    "fuel": 300,
+                },
+                production: {
+                    "food": 150,
+                },
+                consumption: {
+                    "food": 3.0,
+                    "fual": 15.0,
+                    "wood": 0.5
+                },
+                surplus_factor: {
+                    "food": 1.5,
+                    "fual": 2.0,
+                }
+            )
+        )),
+    ]
+)
