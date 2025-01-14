@@ -2,6 +2,7 @@ use bevy::prelude::*;
 
 use super::{assets::*, Map, MapPickedIncicator};
 use crate::{
+    ai_driver::AiDriver,
     driver::Driver,
     location::Location,
     picking::{pick_on, recolor_on, Picked},
@@ -113,6 +114,7 @@ pub fn create_driver(
         Sprite::from_image(asset_server.load(driver.image.path.to_string())),
         Transform::from_xyz(*pos_x as f32, *pos_y as f32, 5.),
         Name::new(driver.name.to_string()),
+        AiDriver,
     ));
 }
 

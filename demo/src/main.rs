@@ -1,7 +1,9 @@
 //mod components;
 // mod miner;
 //mod systems;
+mod ai_driver;
 mod driver;
+mod inspector;
 mod local_economy;
 mod location;
 mod map;
@@ -11,6 +13,7 @@ mod storage;
 mod town;
 mod village;
 
+use ai_driver::AiDriverPlugin;
 use bevy::input::common_conditions::input_toggle_active;
 use bevy::prelude::*;
 use bevy::remote::http::RemoteHttpPlugin;
@@ -52,6 +55,7 @@ fn main() {
     app.add_plugins(MapPlugin);
     app.add_plugins(LocalEconomyPlugin);
     app.add_plugins(DriverPlugin);
+    app.add_plugins(AiDriverPlugin);
     // app.add_plugins(MinerPlugin);
 
     app.add_systems(Startup, startup);
