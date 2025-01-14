@@ -5,6 +5,7 @@ use bevy::{prelude::*, window::PrimaryWindow};
 use components::{AiDriver, AiDriverDestination};
 
 const SPEED: f32 = 3.0;
+const ROTATION_SPEED: f32 = 1.0;
 
 pub fn travel_to_destination(
     time: Res<Time>,
@@ -19,6 +20,13 @@ pub fn travel_to_destination(
             destination,
             time.delta_secs() * SPEED,
         );
+
+        let deg = f32::atan2(
+            destination.y - transform.translation.y,
+            destination.x - transform.translation.x,
+        );
+
+        transform.rotation = Quat::from_rotation_z(deg - 90f32.to_radians());
     }
 }
 
