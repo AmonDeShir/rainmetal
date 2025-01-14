@@ -27,6 +27,10 @@ pub fn travel_to_destination(
         );
 
         transform.rotation = Quat::from_rotation_z(deg - 90f32.to_radians());
+
+        if (transform.translation - destination).length() < 0.5 {
+            commands.entity(entity).remove::<AiDriverDestination>();
+        }
     }
 }
 
