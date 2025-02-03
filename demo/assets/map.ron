@@ -54,7 +54,7 @@ MapData (
         ((50, 50), Driver (
             DriverData (
                 name: "Amon De Shir",
-                image: "images/arrow_blue.png",
+                image: "images/arrow.png",
             )
         )),
     ]
