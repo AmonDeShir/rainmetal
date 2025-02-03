@@ -8,16 +8,16 @@ use crate::inspector::show_item_list;
 use crate::picking::Picked;
 use crate::storage::Storage;
 
-use super::Driver;
+use super::{Driver, Fuel};
 
 pub fn ui_show_picked_driver(
     mut contexts: EguiContexts,
-    query: Query<(&Driver, &Name, &Storage, Option<&AiDriverDestination>), With<Picked>>,
+    query: Query<(&Driver, &Name, &Storage, &Fuel, Option<&AiDriverDestination>), With<Picked>>,
 ) {
     egui::Window::new("Picked driver")
         .default_open(false)
         .show(contexts.ctx_mut(), |ui| {
-            let Ok((_, name, storage, destination)) = query.get_single() else {
+            let Ok((_, name, storage, fuel, destination)) = query.get_single() else {
                 ui.label("Click a driver to select it.");
 
                 return;
@@ -44,6 +44,11 @@ pub fn ui_show_picked_driver(
                         });
                     });
             }
+
+            ui.horizontal(|ui| {
+                ui.label("Fuel: ");
+                ui.label(format!("{:.2}", fuel.0));
+            });
 
             show_item_list("Storage", &storage.items, ui);
         });

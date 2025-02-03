@@ -3,23 +3,26 @@ use crate::{driver::Driver, map::Map, picking::Picked};
 use super::*;
 use bevy::{prelude::*, window::PrimaryWindow};
 use components::{AiDriver, AiDriverDestination};
-
-const SPEED: f32 = 3.0;
-const ROTATION_SPEED: f32 = 1.0;
+use crate::driver::Fuel;
 
 pub fn travel_to_destination(
     time: Res<Time>,
     mut commands: Commands,
-    mut query: Query<(Entity, &mut Transform, &AiDriverDestination), With<AiDriver>>,
+    mut query: Query<(Entity, &mut Transform, &mut Fuel, &AiDriverDestination), With<AiDriver>>,
 ) {
-    for (entity, mut transform, destination) in query.iter_mut() {
+    for (entity, mut transform, mut fuel, destination) in query.iter_mut() {
         let destination = Vec3::new(destination.0.x, destination.0.y, transform.translation.z);
 
-        transform.translation = Vec3::lerp(
-            transform.translation,
-            destination,
-            time.delta_secs() * SPEED,
-        );
+        let movement = (destination - transform.translation) * (time.delta_secs() * SPEED);
+        let travel_distance = f64::from(movement.length()) * POINT_TO_KM;
+        let cost = travel_distance * FUEL_CONSUMPTION_PER_KILOMETER;
+
+        if fuel.0 < cost {
+            continue;
+        }
+
+        transform.translation += movement;
+        fuel.0 -= cost;
 
         let deg = f32::atan2(
             destination.y - transform.translation.y,
