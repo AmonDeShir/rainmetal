@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use super::{assets::*, Map, MapPickedIncicator};
+use super::{assets::*, Map, MapPickedIndicator};
 use crate::{
     ai_driver::AiDriver,
     driver::Driver,
@@ -112,7 +112,7 @@ pub fn create_driver(
 ) {
     commands.insert((
         Sprite::from_image(asset_server.load(driver.image.path.to_string())),
-        Transform::from_xyz(*pos_x as f32, *pos_y as f32, 5.),
+        Transform::from_xyz(*pos_x as f32, *pos_y as f32, 6.),
         Name::new(driver.name.to_string()),
         AiDriver,
     ));
@@ -140,7 +140,7 @@ pub fn on_picked_location(
 
     let indicator = commands
         .spawn((
-            MapPickedIncicator,
+            MapPickedIndicator,
             Sprite::from_image(assets.load("images/selected.png")),
             Transform::from_xyz(0.0, 0.0, 10.0),
         ))
@@ -151,7 +151,7 @@ pub fn on_picked_location(
 
 pub fn on_unpicked_location(
     trigger: Trigger<OnRemove, Picked>,
-    query: Query<(Entity, &Parent), With<MapPickedIncicator>>,
+    query: Query<(Entity, &Parent), With<MapPickedIndicator>>,
     mut commands: Commands,
 ) {
     for (entity, parent) in query.iter() {
