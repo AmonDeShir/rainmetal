@@ -12,6 +12,9 @@ mod picking;
 mod storage;
 mod town;
 mod village;
+mod ai_trader;
+mod memory;
+mod radar;
 
 use ai_driver::AiDriverPlugin;
 use bevy::input::common_conditions::input_toggle_active;
@@ -24,6 +27,9 @@ use driver::DriverPlugin;
 use local_economy::LocalEconomyPlugin;
 use location::LocationPlugin;
 use map::MapPlugin;
+use crate::ai_trader::AiTraderPlugin;
+use crate::memory::MemoryPlugin;
+use crate::radar::RadarPlugin;
 //use systems::*;
 use crate::storage::StoragePlugin;
 //use crate::miner::MinerPlugin;
@@ -56,12 +62,12 @@ fn main() {
     app.add_plugins(LocalEconomyPlugin);
     app.add_plugins(DriverPlugin);
     app.add_plugins(AiDriverPlugin);
-    // app.add_plugins(MinerPlugin);
+    app.add_plugins(RadarPlugin);
+    app.add_plugins(MemoryPlugin);
+    app.add_plugins(AiTraderPlugin);
 
     app.add_systems(Startup, startup);
-    //app.add_systems(Update, draw_gizmos);
-    //app.add_systems(FixedUpdate, spawn_random_mushroom.run_if(on_timer(Duration::from_secs(5))));
-    //app.add_systems(FixedUpdate, spawn_random_ore.run_if(on_timer(Duration::from_secs(5))));
+
 
     app.run();
 }

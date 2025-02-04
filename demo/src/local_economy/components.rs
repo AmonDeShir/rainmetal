@@ -3,7 +3,7 @@ use bevy::utils::HashMap;
 use crate::storage::Storage;
 use crate::needs::Needs;
 
-#[derive(Component, Default)]
+#[derive(Component, Default, Clone)]
 #[require(Storage, Needs)]
 pub struct LocalEconomy {
     pub sell_price: HashMap<String, i32>,

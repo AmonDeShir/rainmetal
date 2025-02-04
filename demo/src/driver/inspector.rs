@@ -14,15 +14,13 @@ pub fn ui_show_picked_driver(
     mut contexts: EguiContexts,
     query: Query<(&Driver, &Name, &Storage, &Fuel, Option<&AiDriverDestination>), With<Picked>>,
 ) {
+    let Ok((_, name, storage, fuel, destination)) = query.get_single() else {
+        return;
+    };
+
     egui::Window::new("Picked driver")
         .default_open(false)
         .show(contexts.ctx_mut(), |ui| {
-            let Ok((_, name, storage, fuel, destination)) = query.get_single() else {
-                ui.label("Click a driver to select it.");
-
-                return;
-            };
-
             ui.label(name.as_str());
 
             CollapsingHeader::new("Info")

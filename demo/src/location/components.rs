@@ -2,9 +2,11 @@ use bevy::prelude::*;
 use bevy::utils::HashMap;
 use crate::storage::Storage;
 use crate::local_economy::LocalEconomy;
+use crate::memory::Memory;
+use crate::radar::TrackedByRadar;
 
 #[derive(Component)]
-#[require(Name, Storage, LocalEconomy)]
+#[require(Name, Storage, LocalEconomy, Memory, TrackedByRadar)]
 pub struct Location {
     pub population: i32,
     pub production: HashMap<String, i32>,

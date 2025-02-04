@@ -4198,7 +4198,6 @@ dependencies = [
  "bevy_dogoap",
  "bevy_egui 0.32.0",
  "bevy_spatial",
- "rand",
  "ron_asset_manager",
  "serde",
 ]
