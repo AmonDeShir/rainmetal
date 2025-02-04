@@ -1,11 +1,10 @@
-use crate::{driver::Driver, map::Map, picking::Picked};
+use crate::{driver::Driver, picking::Picked};
 
 use super::*;
+use crate::driver::Fuel;
+use crate::memory::{Memo, Memory, TravelPlan};
 use bevy::{prelude::*, window::PrimaryWindow};
 use components::{AiDriver, AiDriverDestination};
-use crate::driver::Fuel;
-use crate::local_economy::LocalEconomy;
-use crate::memory::{Memo, Memory, TravelPlan};
 
 pub fn travel_to_destination(
     time: Res<Time>,

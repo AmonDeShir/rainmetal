@@ -4,8 +4,6 @@ mod inspector;
 
 use bevy::prelude::*;
 
-pub use components::*;
-
 pub struct AiTraderPlugin;
 
 impl Plugin for AiTraderPlugin {

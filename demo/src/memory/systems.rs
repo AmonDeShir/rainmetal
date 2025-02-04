@@ -1,9 +1,8 @@
-use std::hash::Hash;
 use super::*;
+use crate::radar::EnterRadioTransmissionRadius;
 use bevy::prelude::*;
 use bevy::utils::HashMap;
-use crate::local_economy::LocalEconomy;
-use crate::radar::EnterRadioTransmissionRadius;
+use std::hash::Hash;
 
 fn share_memory_map<K: Hash + Eq + Clone, V: Clone>(target: &mut HashMap<K, Memo<V>>, source: &HashMap<K, Memo<V>>) {
     for (key, memory) in source.iter() {

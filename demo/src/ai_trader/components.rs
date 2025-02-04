@@ -1,7 +1,5 @@
 use bevy::prelude::*;
-use bevy::utils::HashMap;
 use crate::ai_driver::{FUEL_CONSUMPTION_PER_KILOMETER, POINT_TO_KM};
-use crate::local_economy::LocalEconomy;
 use crate::memory::Memory;
 
 #[derive(Clone)]
