@@ -24,13 +24,17 @@ pub fn ui_show_memory(
             CollapsingHeader::new("Locations")
                 .default_open(true)
                 .show(ui, |ui| {
-                    for (location, memo) in memory.city_prices.iter() {
-                        CollapsingHeader::new(location)
+                    for (entity, memo) in memory.city_prices.iter() {
+                        let Ok(location) = names.get(*entity) else {
+                            continue
+                        };
+
+                        CollapsingHeader::new(location.to_string())
                             .default_open(true)
                             .show(ui, |ui| {
                                 ui.horizontal(|ui| {
                                     ui.label("time");
-                                    ui.label(memo.time.to_string());
+                                    ui.label(format!("{:.02}", memo.time.to_string()));
                                 });
 
                                 show_item_list("Sell Prices", &memo.value.sell_price, ui);
@@ -52,12 +56,12 @@ pub fn ui_show_memory(
                             .show(ui, |ui| {
                                 ui.horizontal(|ui| {
                                     ui.label("time");
-                                    ui.label(memo.time.to_string());
+                                    ui.label(format!("{:.02}", memo.time.to_string()));
                                 });
 
                                 ui.horizontal(|ui| {
                                     ui.label("current position");
-                                    ui.label(format!("{}, {}, {}",
+                                    ui.label(format!("{:.02}, {:.02}, {:.02}",
                                         memo.value.current_position.x,
                                         memo.value.current_position.y,
                                         memo.value.current_position.z
@@ -68,7 +72,7 @@ pub fn ui_show_memory(
                                     ui.label("destination");
 
                                     ui.label(match memo.value.destination {
-                                        Some(pos) =>  format!("{}, {}, {}", pos.x, pos.y, pos.z),
+                                        Some(pos) =>  format!("{:.02}, {:.02}, {:.02}", pos.x, pos.y, pos.z),
                                         None => "None".to_string()
                                     });
                                 });

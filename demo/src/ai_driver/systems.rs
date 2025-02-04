@@ -45,7 +45,7 @@ pub fn update_self_position_memory(mut query: Query<(&mut Memory, Entity, &Trans
             Memo::new(TravelPlan {
                 current_position: transform.translation,
                 destination: destination.and_then(|destination| Option::from(Vec3::new(destination.0.x, destination.0.y, 0.0)))
-            }, time.delta_secs())
+            }, time.elapsed_secs())
         );
     }
 }

@@ -8,6 +8,7 @@ use crate::{
     picking::{pick_on, recolor_on, Picked},
     storage::Storage,
     town::Town,
+    ai_trader::AiTrader,
     village::Village,
 };
 
@@ -114,6 +115,7 @@ pub fn create_driver(
         Sprite::from_image(asset_server.load(driver.image.path.to_string())),
         Transform::from_xyz(*pos_x as f32, *pos_y as f32, 6.),
         Name::new(driver.name.to_string()),
+        AiTrader,
         AiDriver,
     ));
 }

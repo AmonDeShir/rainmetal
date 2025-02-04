@@ -2,16 +2,20 @@ use bevy::prelude::*;
 use crate::ai_driver::{FUEL_CONSUMPTION_PER_KILOMETER, POINT_TO_KM};
 use crate::memory::Memory;
 
+#[derive(Component, Default)]
+#[require(TradingPlans)]
+pub struct AiTrader;
+
 #[derive(Clone)]
 pub struct TradingPlan {
-    pub from: String,
-    pub to: String,
+    pub from: Entity,
+    pub to: Entity,
     pub item: String,
     pub distance: f32,
     pub start_position: Vec3,
     pub profit: f32,
     pub min_count: u32,
-    pub capital_required: i32
+    pub min_capital_required: i32
 }
 
 impl TradingPlan {
@@ -32,11 +36,11 @@ impl TradingPlans {
 
     pub fn find_plan(&mut self, player_position: Vec3, player_gold: i32, fuel_cost: i32) -> Option<&TradingPlan> {
         for plan in self.0.iter() {
-            if plan.capital_required < player_gold {
+            if plan.min_capital_required < player_gold {
                 // Calculating travel costs is computationally complex, so we only count it if the plan is affordable
                 let travel_cost = calculate_travel_cost(player_position, plan.start_position, fuel_cost).round() as i32;
 
-                if plan.capital_required + travel_cost < player_gold {
+                if plan.min_capital_required + travel_cost < player_gold {
                     return Some(&plan);
                 }
             }
@@ -46,7 +50,7 @@ impl TradingPlans {
     }
 }
 
-fn calculate_travel_cost(player_position: Vec3, target_position: Vec3, fuel_cost: i32) -> f64 {
+pub fn calculate_travel_cost(player_position: Vec3, target_position: Vec3, fuel_cost: i32) -> f64 {
     let distance = player_position.distance(target_position) as f64;
 
     distance * POINT_TO_KM * FUEL_CONSUMPTION_PER_KILOMETER * fuel_cost as f64

@@ -35,6 +35,6 @@ pub struct TravelPlan {
 #[derive(Component, Default)]
 #[require(TrackedByRadar)]
 pub struct Memory {
-    pub city_prices: HashMap<String, Memo<LocalEconomy>>,
+    pub city_prices: HashMap<Entity, Memo<LocalEconomy>>,
     pub npc_positions: HashMap<Entity, Memo<TravelPlan>>,
 }

@@ -20,7 +20,13 @@ pub fn calculate_prices(mut query: Query<(&mut LocalEconomy, &Storage, &Needs)>,
             let sell_price = (buy_price as f32 * 1.2).round() as i32;
 
             location.0.buy_price.insert(item.to_string(), buy_price);
-            location.0.sell_price.insert(item.to_string(), sell_price);
+
+            if supply > 0.0 {
+                location.0.sell_price.insert(item.to_string(), sell_price);
+            }
+            else {
+                location.0.sell_price.remove(item);
+            }
         }
     }
 }
@@ -29,11 +35,11 @@ pub fn calculate_price(basis_price: f32, demand: f32, supply: f32,  price_unstab
     basis_price * (1.0 + price_unstability * (1.0 + demand / supply.max(1.0) ).ln())
 }
 
-pub fn update_self_economy_memory(mut query: Query<(&mut Memory, &Name, &LocalEconomy)>, time: Res<Time>) {
-    for (mut memory, name, economy) in query.iter_mut() {
+pub fn update_self_economy_memory(mut query: Query<(&mut Memory, Entity, &LocalEconomy)>, time: Res<Time>) {
+    for (mut memory, entity, economy) in query.iter_mut() {
         memory.city_prices.insert(
-            name.as_str().to_string(),
-            Memo::new(economy.clone(), time.delta_secs())
+            entity.clone(),
+            Memo::new(economy.clone(), time.elapsed_secs())
         );
     }
 }
