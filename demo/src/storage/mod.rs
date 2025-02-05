@@ -22,7 +22,7 @@ pub struct ItemList {
 #[derive(Resource, Default)]
 pub struct ItemListHandle(pub Handle<ItemList>);
 
-#[derive(Component)]
+#[derive(Component, Clone)]
 pub struct Storage {
     pub items: HashMap<String, i32>,
 }

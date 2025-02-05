@@ -5,6 +5,7 @@ use bevy_inspector_egui::bevy_egui::EguiContexts;
 
 use crate::ai_driver::AiDriverDestination;
 use crate::inspector::show_item_list;
+use crate::location::Money;
 use crate::picking::Picked;
 use crate::storage::Storage;
 
@@ -12,9 +13,9 @@ use super::{Driver, Fuel};
 
 pub fn ui_show_picked_driver(
     mut contexts: EguiContexts,
-    query: Query<(&Driver, &Name, &Storage, &Fuel, Option<&AiDriverDestination>), With<Picked>>,
+    query: Query<(&Driver, &Name, &Money, &Storage, &Fuel, Option<&AiDriverDestination>), With<Picked>>,
 ) {
-    let Ok((_, name, storage, fuel, destination)) = query.get_single() else {
+    let Ok((_, name, money, storage, fuel, destination)) = query.get_single() else {
         return;
     };
 
@@ -29,6 +30,11 @@ pub fn ui_show_picked_driver(
                     ui.horizontal(|ui| {
                         ui.label("Name: ");
                         ui.label(name.as_str());
+                    });
+
+                    ui.horizontal(|ui| {
+                        ui.label("Money: ");
+                        ui.label(money.0.to_string());
                     });
                 });
 

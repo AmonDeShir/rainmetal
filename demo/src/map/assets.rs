@@ -38,4 +38,6 @@ pub struct DriverData {
     pub name: String,
     #[asset]
     pub image: Shandle<Image>,
+    pub money: i32,
+    pub fuel: f32,
 }

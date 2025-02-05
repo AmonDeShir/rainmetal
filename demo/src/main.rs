@@ -1,6 +1,3 @@
-//mod components;
-// mod miner;
-//mod systems;
 mod ai_driver;
 mod driver;
 mod inspector;
@@ -21,7 +18,7 @@ use bevy::input::common_conditions::input_toggle_active;
 use bevy::prelude::*;
 use bevy::remote::http::RemoteHttpPlugin;
 use bevy::remote::RemotePlugin;
-use bevy_dogoap::prelude::*;
+use bevy_dogoap::prelude::DogoapPlugin;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use driver::DriverPlugin;
 use local_economy::LocalEconomyPlugin;
@@ -30,9 +27,7 @@ use map::MapPlugin;
 use crate::ai_trader::AiTraderPlugin;
 use crate::memory::MemoryPlugin;
 use crate::radar::RadarPlugin;
-//use systems::*;
 use crate::storage::StoragePlugin;
-//use crate::miner::MinerPlugin;
 
 pub fn startup(mut commands: Commands) {
     commands.spawn(Camera2d::default());
@@ -49,13 +44,14 @@ fn main() {
         ..default()
     }));
 
+    app.add_plugins(DogoapPlugin);
+
     app.add_plugins(RemotePlugin::default());
     app.add_plugins(RemoteHttpPlugin::default());
     app.add_plugins(
         WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::KeyI)),
     );
 
-    app.add_plugins(DogoapPlugin);
     app.add_plugins(LocationPlugin);
     app.add_plugins(StoragePlugin);
     app.add_plugins(MapPlugin);

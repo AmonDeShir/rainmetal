@@ -1,9 +1,7 @@
 use crate::{needs::Needs, storage::{ItemContainer, ItemList, ItemListHandle, Storage}};
-use crate::memory::{Memo, Memory};
 use super::*;
 
-
-pub fn calculate_prices(mut query: Query<(&mut LocalEconomy, &Storage, &Needs)>, items_handler: Res<ItemListHandle>, assets: Res<Assets<ItemList>>) {
+pub fn calculate_prices(mut query: Query<(&mut LocalEconomy, &Storage, &Needs), Or<(Changed<Storage>, Changed<Needs>)>>, items_handler: Res<ItemListHandle>, assets: Res<Assets<ItemList>>) {
     let Some(ItemList { items }) = assets.get(&items_handler.0) else {
         return;
     };
@@ -33,13 +31,4 @@ pub fn calculate_prices(mut query: Query<(&mut LocalEconomy, &Storage, &Needs)>,
 
 pub fn calculate_price(basis_price: f32, demand: f32, supply: f32,  price_unstability: f32) -> f32 {
     basis_price * (1.0 + price_unstability * (1.0 + demand / supply.max(1.0) ).ln())
-}
-
-pub fn update_self_economy_memory(mut query: Query<(&mut Memory, Entity, &LocalEconomy)>, time: Res<Time>) {
-    for (mut memory, entity, economy) in query.iter_mut() {
-        memory.city_prices.insert(
-            entity.clone(),
-            Memo::new(economy.clone(), time.elapsed_secs())
-        );
-    }
 }

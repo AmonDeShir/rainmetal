@@ -2,7 +2,7 @@ use crate::{driver::Driver, picking::Picked};
 
 use super::*;
 use crate::driver::Fuel;
-use crate::memory::{Memo, Memory, TravelPlan};
+use crate::memory::{Memo, Memory};
 use bevy::{prelude::*, window::PrimaryWindow};
 use components::{AiDriver, AiDriverDestination};
 
@@ -35,18 +35,6 @@ pub fn travel_to_destination(
         if (transform.translation - destination).length() < 0.5 {
             commands.entity(entity).remove::<AiDriverDestination>();
         }
-    }
-}
-
-pub fn update_self_position_memory(mut query: Query<(&mut Memory, Entity, &Transform, Option<&AiDriverDestination>), With<Driver>>, time: Res<Time>) {
-    for (mut memory, entity, transform, destination) in query.iter_mut() {
-        memory.npc_positions.insert(
-            entity.clone(),
-            Memo::new(TravelPlan {
-                current_position: transform.translation,
-                destination: destination.and_then(|destination| Option::from(Vec3::new(destination.0.x, destination.0.y, 0.0)))
-            }, time.elapsed_secs())
-        );
     }
 }
 

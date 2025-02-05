@@ -4,22 +4,22 @@ use crate::ai_trader::components::{AiTrader, TradingPlan, TradingPlans};
 use crate::location::Location;
 use crate::memory::Memory;
 
-pub fn update_trading_plans(mut query: Query<(&mut TradingPlans, &Memory), With<AiTrader>>, cities: Query<(&Transform), With<Location>>) {
+pub fn update_trading_plans(mut query: Query<(&mut TradingPlans, &Memory), With<AiTrader>>, cities: Query<&Transform, With<Location>>) {
     for (mut plans, memory) in query.iter_mut() {
         plans.0.clear();
 
-        for (start_city, start_city_economy) in memory.city_prices.iter() {
-            for (item, buy_price) in start_city_economy.value.sell_price.iter() {
-                for (end_city, end_city_economy) in memory.city_prices.iter() {
+        for (start_city, start_city_data) in memory.locations.iter() {
+            for (item, buy_price) in start_city_data.value.prices.sell_price.iter() {
+                for (end_city, end_city_data) in memory.locations.iter() {
                     if start_city == end_city {
                         continue
                     };
 
-                    let Some(fuel_price) = start_city_economy.value.sell_price.get("fuel") else {
+                    let Some(fuel_price) = start_city_data.value.prices.sell_price.get("fuel") else {
                         continue
                     };
 
-                    let Some(sell_price) = end_city_economy.value.buy_price.get(item) else {
+                    let Some(sell_price) = end_city_data.value.prices.buy_price.get(item) else {
                         continue
                     };
 

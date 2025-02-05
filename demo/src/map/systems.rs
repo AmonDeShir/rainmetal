@@ -11,6 +11,7 @@ use crate::{
     ai_trader::AiTrader,
     village::Village,
 };
+use crate::location::Money;
 
 pub fn load_map(
     mut ev_asset: EventReader<AssetEvent<MapData>>,
@@ -96,6 +97,7 @@ fn create_location(
         Storage {
             items: location.storage.clone(),
         },
+        Money(location.money as i64),
         Location {
             population: location.population,
             consumption: location.consumption.clone(),
@@ -115,6 +117,7 @@ pub fn create_driver(
         Sprite::from_image(asset_server.load(driver.image.path.to_string())),
         Transform::from_xyz(*pos_x as f32, *pos_y as f32, 6.),
         Name::new(driver.name.to_string()),
+        Money(driver.money as i64),
         AiTrader,
         AiDriver,
     ));

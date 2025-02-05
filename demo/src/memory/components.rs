@@ -2,6 +2,7 @@ use bevy::prelude::*;
 use bevy::utils::HashMap;
 use crate::local_economy::LocalEconomy;
 use crate::radar::TrackedByRadar;
+use crate::storage::Storage;
 
 #[derive(Clone)]
 pub struct Memo<T> where T: Clone {
@@ -27,14 +28,21 @@ impl<T> Memo<T> where T: Clone {
 }
 
 #[derive(Clone)]
-pub struct TravelPlan {
+pub struct CharacterData {
     pub current_position: Vec3,
     pub destination: Option<Vec3>,
+}
+
+#[derive(Clone)]
+pub struct LocationData {
+    pub prices: LocalEconomy,
+    pub position: Vec3,
+    pub storage: Storage,
 }
 
 #[derive(Component, Default)]
 #[require(TrackedByRadar)]
 pub struct Memory {
-    pub city_prices: HashMap<Entity, Memo<LocalEconomy>>,
-    pub npc_positions: HashMap<Entity, Memo<TravelPlan>>,
+    pub locations: HashMap<Entity, Memo<LocationData>>,
+    pub characters: HashMap<Entity, Memo<CharacterData>>,
 }

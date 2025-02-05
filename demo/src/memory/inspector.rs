@@ -24,7 +24,7 @@ pub fn ui_show_memory(
             CollapsingHeader::new("Locations")
                 .default_open(true)
                 .show(ui, |ui| {
-                    for (entity, memo) in memory.city_prices.iter() {
+                    for (entity, memo) in memory.locations.iter() {
                         let Ok(location) = names.get(*entity) else {
                             continue
                         };
@@ -37,8 +37,18 @@ pub fn ui_show_memory(
                                     ui.label(format!("{:.02}", memo.time.to_string()));
                                 });
 
-                                show_item_list("Sell Prices", &memo.value.sell_price, ui);
-                                show_item_list("Buy Prices", &memo.value.buy_price, ui);
+                                ui.horizontal(|ui| {
+                                    ui.label("Position");
+                                    ui.label(format!("{:.02}, {:.02}, {:.02}",
+                                        memo.value.position.x,
+                                        memo.value.position.y,
+                                        memo.value.position.z
+                                    ));
+                                });
+
+                                show_item_list("Sell Prices", &memo.value.prices.sell_price, ui);
+                                show_item_list("Buy Prices", &memo.value.prices.buy_price, ui);
+                                show_item_list("Storage", &memo.value.storage.items, ui);
                             });
                     }
                 });
@@ -46,7 +56,7 @@ pub fn ui_show_memory(
             CollapsingHeader::new("Characters")
                 .default_open(true)
                 .show(ui, |ui| {
-                    for (entity, memo) in memory.npc_positions.iter() {
+                    for (entity, memo) in memory.characters.iter() {
                         let Ok(name) = names.get(*entity) else {
                             continue
                         };

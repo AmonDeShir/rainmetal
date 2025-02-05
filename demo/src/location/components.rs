@@ -1,12 +1,22 @@
 use bevy::prelude::*;
 use bevy::utils::HashMap;
+use bevy_dogoap::prelude::*;
 use crate::storage::Storage;
 use crate::local_economy::LocalEconomy;
 use crate::memory::Memory;
 use crate::radar::TrackedByRadar;
 
+#[derive(Component, Clone, DatumComponent)]
+pub struct Money(pub i64);
+
+impl Default for Money {
+    fn default() -> Self {
+        Money(100)
+    }
+}
+
 #[derive(Component)]
-#[require(Name, Storage, LocalEconomy, Memory, TrackedByRadar)]
+#[require(Name, Storage, LocalEconomy, Memory, TrackedByRadar, Money)]
 pub struct Location {
     pub population: i32,
     pub production: HashMap<String, i32>,

@@ -1,8 +1,10 @@
-use crate::driver::Driver;
+use crate::driver::{Driver, Fuel};
+use crate::location::Money;
+
 use bevy::prelude::*;
 
 #[derive(Component)]
-#[require(Driver)]
+#[require(Driver, Fuel, Money)]
 pub struct AiDriver;
 
 #[derive(Component)]

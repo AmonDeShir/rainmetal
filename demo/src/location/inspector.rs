@@ -9,9 +9,9 @@ use crate::{inspector::show_item_list, needs::Needs, picking::Picked};
 
 pub fn ui_show_picked_location(
     mut contexts: EguiContexts,
-    query: Query<(&Location, &Name, &LocalEconomy, &Storage, &Needs), With<Picked>>,
+    query: Query<(&Location, &Name, &Money, &LocalEconomy, &Storage, &Needs), With<Picked>>,
 ) {
-    let Ok((location, name, economy, storage, needs)) = query.get_single() else {
+    let Ok((location, name, money, economy, storage, needs)) = query.get_single() else {
         return;
     };
 
@@ -26,6 +26,11 @@ pub fn ui_show_picked_location(
                     ui.horizontal(|ui| {
                         ui.label("Name: ");
                         ui.label(name.as_str());
+                    });
+
+                    ui.horizontal(|ui| {
+                        ui.label("Money: ");
+                        ui.label(money.0.to_string());
                     });
 
                     ui.horizontal(|ui| {

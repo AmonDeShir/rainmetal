@@ -4,12 +4,14 @@ use bevy_dogoap::prelude::*;
 use crate::radar::TrackedByRadar;
 use crate::memory::Memory;
 
-#[derive(Component, Reflect, Clone, DatumComponent)]
+pub const MAX_STORAGE_CAPACITY: usize = 32;
+
+#[derive(Component, Clone, DatumComponent)]
 pub struct Fuel(pub f64);
 
 impl Default for Fuel {
     fn default() -> Self {
-        Self(100.0)
+        Self(10.0)
     }
 }
 

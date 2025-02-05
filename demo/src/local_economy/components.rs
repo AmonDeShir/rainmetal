@@ -14,12 +14,12 @@ pub struct LocalEconomy {
 
 impl LocalEconomy {
     /** Gets the price at witch the entity is willing to sell the item, returns zero if entity doesn't want to sell the item */
-    fn buy_price(&self, item: &str) -> i32 {
+    pub fn buy_price(&self, item: &str) -> i32 {
         self.buy_price.get(item).cloned().unwrap_or(0)
     }
 
     /** Gets the price at witch the entity is willing to buy the item, returns zero if entity doesn't want to buy the item */
-    fn sell_price(&self, item: &str) -> i32 {
+    pub fn sell_price(&self, item: &str) -> i32 {
         self.sell_price.get(item).cloned().unwrap_or(0)
     }
 }
