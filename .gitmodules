@@ -1,0 +1,3 @@
+[submodule "demo/dogoap"]
+	path = demo/dogoap
+	url = https://github.com/AmonDeShir/dogoap.git

@@ -1,6 +1,5 @@
 use bevy::prelude::*;
 use bevy_dogoap::prelude::*;
-use bevy_egui::egui::debug_text::print;
 use num_traits::float::Float;
 use rand::prelude::*;
 use crate::ai_driver::{AiDriver, AiDriverDestination};
@@ -118,8 +117,6 @@ pub fn handle_go_to_near_city_action_finish(
     mut query: Query<(&Memory, &Transform, &mut InsideCityDatum), (With<AiDriver>, With<GoToNearCityAction>)>,
     mut commands: Commands
 ) {
-    println!("On place!");
-
     let Ok((memory, transform, mut inside_city)) = query.get_mut(trigger.entity()) else {
         return
     };
@@ -134,8 +131,6 @@ pub fn handle_go_to_near_city_action_finish(
         commands.entity(trigger.entity()).remove::<GoToNearCityAction>();
     }
     else {
-        println!("Not on place :( Distance: {}", location.distance(transform.translation));
-
         commands.entity(trigger.entity()).insert(AiDriverDestination(location.xy()));
     }
 }
