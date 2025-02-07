@@ -43,9 +43,9 @@ pub struct KnowAllLocations(pub bool);
 
 pub fn setup_driver_ai(query: Query<(Entity, &Money, &Fuel), Added<AiDriver>>, mut commands: Commands) {
     for (entity, money, fuel) in query.iter() {
-        let rent_goal = Goal::from_reqs(&[Money::is_more(RENT_COST_MONTHLY)]);
-        let fuel_goal = Goal::from_reqs(&[Fuel::is_more(FUEL_RESERVE)]);
-        let discover_goal = Goal::from_reqs(&[KnowAllLocations::is(true)]);
+        let rent_goal = Goal::from_reqs(&[Money::is_more(RENT_COST_MONTHLY)]).with_priority(3);
+        let fuel_goal = Goal::from_reqs(&[Fuel::is_more(FUEL_RESERVE)]).with_priority(5);
+        let discover_goal = Goal::from_reqs(&[KnowAllLocations::is(true)]).with_priority(0);
 
         let refuel_action = RefuelAction::new()
             .add_mutator(Fuel::increase(1.0))
@@ -78,7 +78,7 @@ pub fn setup_driver_ai(query: Query<(Entity, &Money, &Fuel), Added<AiDriver>>, m
                 (DiscoverAction, discover_action),
             ],
             state: [money, fuel, KnowAnyLocation(false), KnowAllLocations(false), InsideCityDatum(false)],
-            goals: [discover_goal, fuel_goal],
+            goals: [discover_goal, rent_goal, fuel_goal],
         });
 
         planner.remove_goal_on_no_plan_found = false;

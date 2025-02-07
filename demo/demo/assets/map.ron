@@ -51,10 +51,31 @@ MapData (
                 }
             )
         )),
+        ((200, -100), Village (
+            LocationData (
+                name: "Oil Factory",
+                population: 10,
+                money: 500,
+                image: "images/village.png",
+                storage: {
+                    "food": 500,
+                    "fuel": 5000,
+                },
+                production: {
+                    "fuel": 300,
+                },
+                consumption: {
+                    "food": 3.0,
+                },
+                surplus_factor: {
+                    "food": 1.5,
+                }
+            )
+        )),
         ((50, 50), Driver (
             DriverData (
                 name: "Amon De Shir",
-                money: 100,
+                money: 500,
                 fuel: 10.0,
                 image: "images/arrow.png",
             )
