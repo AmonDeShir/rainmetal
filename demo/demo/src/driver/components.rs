@@ -11,7 +11,7 @@ pub struct Fuel(pub f64);
 
 impl Default for Fuel {
     fn default() -> Self {
-        Self(10.0)
+        Self(100.0)
     }
 }
 

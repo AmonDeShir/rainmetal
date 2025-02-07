@@ -11,6 +11,7 @@ use crate::{
     ai_trader::AiTrader,
     village::Village,
 };
+use crate::driver::Fuel;
 use crate::location::Money;
 
 pub fn load_map(
@@ -118,6 +119,7 @@ pub fn create_driver(
         Transform::from_xyz(*pos_x as f32, *pos_y as f32, 6.),
         Name::new(driver.name.to_string()),
         Money(driver.money as i64),
+        Fuel(driver.fuel as f64),
         AiTrader,
         AiDriver,
     ));

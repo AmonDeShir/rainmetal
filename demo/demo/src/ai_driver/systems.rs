@@ -1,8 +1,7 @@
-use crate::{driver::Driver, picking::Picked};
+use crate::picking::Picked;
 
 use super::*;
 use crate::driver::Fuel;
-use crate::memory::{Memo, Memory};
 use bevy::{prelude::*, window::PrimaryWindow};
 use components::{AiDriver, AiDriverDestination};
 

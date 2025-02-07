@@ -177,7 +177,7 @@ pub fn handle_discover_action(
 pub fn handle_discover_action_finish(
     trigger: Trigger<OnRemove, AiDriverDestination>,
     mut query: Query<(&Memory, &mut KnowAnyLocation, &mut KnowAllLocations), (With<AiDriver>, With<DiscoverAction>)>,
-    locations: Query<(&Transform), With<Location>>,
+    locations: Query<&Transform, With<Location>>,
     mut commands: Commands
 ) {
     let Ok((memory, mut know_any_location, mut know_all_locations)) = query.get_mut(trigger.entity()) else {
