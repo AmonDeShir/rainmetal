@@ -10,7 +10,7 @@ use bevy_inspector_egui::bevy_egui::{
 
 pub fn ui_show_ai_plans(
     mut contexts: EguiContexts,
-    planners: Query<(Entity, &Name, &Planner), (With<Picked>)>,
+    planners: Query<(Entity, &Name, &Planner), With<Picked>>,
     actions: Query<(Entity, &dyn ActionComponent)>,
     datums: Query<(Entity, &dyn DatumComponent)>,
 ) {

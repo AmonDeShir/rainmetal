@@ -1,9 +1,7 @@
 mod components;
 mod systems;
 
-use std::time::Duration;
-
-use bevy::{prelude::*, time::common_conditions::on_timer};
+use bevy::prelude::*;
 
 pub use components::*;
 use systems::calculate_prices;

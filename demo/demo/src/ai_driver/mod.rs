@@ -31,8 +31,11 @@ impl Plugin for AiDriverPlugin {
         app.add_systems(Update, handle_exit_city_action);
         app.add_systems(Update, handle_discover_action);
         app.add_observer(handle_discover_action_finish);
+        app.add_systems(Update, update_fuel_cost);
+        app.add_observer(start_work_action);
+        app.add_systems(Update, handle_work_action);
 
-        register_components!(app, vec![Fuel, Money, InsideCityDatum, KnowAllLocations, KnowAnyLocation]);
-        register_actions!(app, vec![GoToNearCityAction, ExitCityAction, RefuelAction, DiscoverAction]);
+        register_components!(app, vec![Fuel, Money, InsideCityDatum, KnowAllLocations, FuelCost, KnowAnyLocation]);
+        register_actions!(app, vec![GoToNearCityAction, ExitCityAction, EarnMoneyAction, RefuelAction, DiscoverAction]);
     }
 }

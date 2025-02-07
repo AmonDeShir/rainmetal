@@ -75,7 +75,7 @@ MapData (
         ((50, 50), Driver (
             DriverData (
                 name: "Amon De Shir",
-                money: 500,
+                money: 100,
                 fuel: 10.0,
                 image: "images/arrow.png",
             )
