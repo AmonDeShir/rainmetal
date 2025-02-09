@@ -56,7 +56,7 @@ impl DistanceCalculator {
     }
 
     pub fn add_eq<T: PartialEq>(mut self, a: &T, b: &T) -> Self {
-        if a == b {
+        if a != b {
             self.value += 1
         }
 
