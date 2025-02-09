@@ -1,4 +1,4 @@
-use crate::ai_driver::{AiDriver, AiDriverDestination};
+use crate::ai_driver::{AiDriver, AiDriverDestination, FUEL_RESERVE, RENT_COST_MONTHLY};
 use crate::driver::Fuel;
 use crate::local_economy::LocalEconomy;
 use crate::location::{Location, Money};
@@ -11,9 +11,6 @@ use std::hash::Hash;
 use std::sync::Arc;
 use bevy_inspector_egui::egui::Ui;
 use crate::goap_inspector::{ui_show_ai_plans, DebugPlannerState};
-
-const RENT_COST_MONTHLY: i64 = 120;
-const FUEL_RESERVE: f64 = 30.0;
 
 #[derive(Component, Clone, Default, ActionComponent)]
 pub struct GoToNearCityAction(ActionState);

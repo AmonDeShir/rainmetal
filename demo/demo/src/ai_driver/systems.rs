@@ -4,6 +4,13 @@ use super::*;
 use crate::driver::Fuel;
 use bevy::{prelude::*, window::PrimaryWindow};
 use components::{AiDriver, AiDriverDestination};
+use crate::location::Money;
+
+pub fn collect_rent(mut query: Query<&mut Money, With<AiDriver>>) {
+    for mut money in query.iter_mut() {
+        money.0 -= RENT_COST_MONTHLY;
+    }
+}
 
 pub fn travel_to_destination(
     time: Res<Time>,

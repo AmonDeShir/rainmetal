@@ -114,7 +114,7 @@ pub struct ComputePlan<S: PlannerState>(Task<(Option<(Vec<Node<S>>, usize)>, Opt
 #[derive(Component)]
 pub struct IsPlanning;
 
-pub fn create_planner_tasks<S: PlannerState>(mut commands: Commands, mut query: Query<(Entity, &mut Planner<S>, &S), Without<ComputePlan<S>>>) {
+pub fn create_planner_tasks<S: PlannerState>(mut commands: Commands, mut query: Query<(Entity, &mut Planner<S>, &S), (Without<ComputePlan<S>>, Changed<S>)>) {
     let thread_pool = AsyncComputeTaskPool::get();
 
 
