@@ -19,7 +19,7 @@ impl Plugin for MapPlugin {
 
         app.add_plugins(RonAssetPlugin::<MapData>::default());
         app.add_systems(Startup, setup);
-        app.add_systems(Update, load_map);
+        app.add_systems(PreUpdate, load_map);
 
         app.add_observer(on_picked_location);
         app.add_observer(on_unpicked_location);

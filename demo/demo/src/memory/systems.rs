@@ -1,5 +1,5 @@
 use super::*;
-use crate::radar::{EnterRadioTransmissionRadius, ExitRadioTransmissionRadius};
+use crate::radar::{EnterRadioTransmissionRadius, ExitRadioTransmissionRadius, TrackedByRadar};
 use bevy::prelude::*;
 use bevy::utils::HashMap;
 use std::hash::Hash;
@@ -8,6 +8,19 @@ use crate::ai_driver::AiDriverDestination;
 use crate::driver::Driver;
 use crate::local_economy::LocalEconomy;
 use crate::storage::Storage;
+
+pub fn on_location_removed(trigger: Trigger<OnRemove, Location>, mut query: Query<&mut Memory>) {
+    for mut memory in query.iter_mut() {
+        memory.locations.remove(&trigger.entity());
+    }
+}
+
+pub fn on_driver_removed(trigger: Trigger<OnRemove, Driver>, mut query: Query<&mut Memory>) {
+    for mut memory in query.iter_mut() {
+        memory.characters.remove(&trigger.entity());
+    }
+}
+
 
 fn share_memory_map<K: Hash + Eq + Clone, V: Clone>(target: &mut HashMap<K, Memo<V>>, source: &HashMap<K, Memo<V>>) {
     for (key, memory) in source.iter() {

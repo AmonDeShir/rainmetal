@@ -53,7 +53,7 @@ impl<S: PlannerState> Planner<S> {
 }
 
 pub fn init_planner<S: PlannerState>(app: &mut App) {
-    app.add_systems(PreUpdate, (create_planner_tasks::<S>, handle_planner_tasks::<S>).chain());
+    app.add_systems(Update, (create_planner_tasks::<S>, handle_planner_tasks::<S>).chain());
 }
 
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]

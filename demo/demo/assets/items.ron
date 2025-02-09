@@ -5,6 +5,11 @@ ItemList(
             price: 20,
             price_unstability: 0.5,
         ),
+        "beer": ItemDefinition (
+            name: "Beer",
+            price: 30,
+            price_unstability: 0.5,
+        ),
         "fuel": ItemDefinition (
             name: "Fuel",
             price: 6,

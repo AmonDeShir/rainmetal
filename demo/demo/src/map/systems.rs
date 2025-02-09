@@ -42,6 +42,7 @@ pub fn load_map(
 
                 if let Some(children) = children {
                     for &child in children.iter() {
+                        println!("Delete {}", child);
                         commands.entity(map_entity).remove_children(&[child]);
                         commands.entity(child).despawn();
                     }

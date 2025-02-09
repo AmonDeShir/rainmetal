@@ -4,8 +4,8 @@ MapData (
     items: [
        ((-126, 97), Town (
             LocationData (
-                name: "Librum",
-                population: 200,
+                name: "Sowth",
+                population: 210,
                 money: 10000,
                 image: "images/town.png",
                 storage: {
@@ -16,19 +16,21 @@ MapData (
                 consumption: {
                     "food": 3.0,
                     "fuel": 15.0,
+                    "beer": 0.5,
                 },
                 production: {
                     "wood": 100,
                 },
                 surplus_factor: {
                     "food": 1.5,
+                    "bear": 1.5,
                     "fuel": 2.0,
                 }
             )
         )),
         ((180, 170), Village (
             LocationData (
-                name: "Gluthe",
+                name: "Glukhoe",
                 population: 10,
                 money: 500,
                 image: "images/village.png",
@@ -43,18 +45,21 @@ MapData (
                 consumption: {
                     "food": 3.0,
                     "fuel": 15.0,
-                    "wood": 0.5
+                    "wood": 0.5,
+                    "beer": 0.5,
                 },
                 surplus_factor: {
                     "food": 1.5,
+                    "bear": 1.25,
+                    "wood": 1.25,
                     "fuel": 2.0,
                 }
             )
         )),
-        ((200, -90), Village (
+        ((150, -90), Village (
             LocationData (
-                name: "Oil Factory",
-                population: 10,
+                name: "Troyitsk",
+                population: 12,
                 money: 500,
                 image: "images/village.png",
                 storage: {
@@ -66,9 +71,63 @@ MapData (
                 },
                 consumption: {
                     "food": 3.0,
+                    "beer": 0.5,
                 },
                 surplus_factor: {
                     "food": 1.5,
+                    "bear": 1.25,
+                    "fuel": 2.0,
+                }
+            )
+        )),
+        ((130, -200), Village (
+            LocationData (
+                name: "Gugulino",
+                population: 8,
+                money: 500,
+                image: "images/village.png",
+                storage: {
+                    "food": 500,
+                    "fuel": 300,
+                },
+                production: {
+                    "food": 100,
+                },
+                consumption: {
+                    "food": 2.0,
+                    "beer": 0.5,
+                    "fuel": 14.0,
+                },
+                surplus_factor: {
+                    "food": 1.5,
+                    "bear": 1.25,
+                    "fuel": 2.0,
+                }
+            )
+        )),
+        ((5, -165), Village (
+            LocationData (
+                name: "Zaimka",
+                population: 6,
+                money: 500,
+                image: "images/village.png",
+                storage: {
+                    "food": 500,
+                    "fuel": 300,
+                },
+                production: {
+                    "beer": 100,
+                },
+                consumption: {
+                    "food": 3.0,
+                    "beer": 0.5,
+                    "wood": 0.5,
+                    "fuel": 15.0,
+                },
+                surplus_factor: {
+                    "food": 1.5,
+                    "wood": 1.25,
+                    "fuel": 2.0,
                 }
             )
         )),
@@ -79,6 +138,24 @@ MapData (
                 fuel: 10.0,
                 image: "images/arrow.png",
             )
+        )),
+
+        ((10, -140), Driver (
+            DriverData (
+                name: "Jaskier",
+                money: 50,
+                fuel: 100.0,
+                image: "images/arrow.png",
+            )
+        )),
+
+        ((130, 130), Driver (
+        DriverData (
+            name: "Makkak",
+            money: 50,
+            fuel: 100.0,
+            image: "images/arrow.png",
+        )
         )),
     ]
 )

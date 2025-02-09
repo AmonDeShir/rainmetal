@@ -6,7 +6,7 @@ use bevy::prelude::*;
 
 pub use components::*;
 use crate::memory::inspector::ui_show_memory;
-use crate::memory::systems::{init_city_memory, init_driver_position_memory, share_memory_on_enter, share_memory_on_exit, update_driver_position_memory, update_location_economy_memory, update_location_storage_memory};
+use crate::memory::systems::{init_city_memory, init_driver_position_memory, on_driver_removed, on_location_removed, share_memory_on_enter, share_memory_on_exit, update_driver_position_memory, update_location_economy_memory, update_location_storage_memory};
 
 pub struct MemoryPlugin;
 
@@ -22,5 +22,7 @@ impl Plugin for MemoryPlugin {
         app.add_observer(share_memory_on_enter);
         app.add_observer(share_memory_on_exit);
 
+        app.add_observer(on_driver_removed);
+        app.add_observer(on_location_removed);
     }
 }

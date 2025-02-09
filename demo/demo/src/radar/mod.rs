@@ -5,7 +5,7 @@ use bevy::prelude::*;
 use bevy::time::common_conditions::on_timer;
 use bevy::utils::HashMap;
 use bevy_spatial::{AutomaticUpdate, kdtree::KDTree2, TransformMode, SpatialAccess, SpatialStructure};
-use crate::radar::systems::{draw_debug_circles, update_debug_config, update};
+use crate::radar::systems::{draw_debug_circles, update_debug_config, update, on_radar_removed};
 
 pub const RADIO_TRANSMISSION_RADIUS: f32 = 50.0;
 pub const UPDATE_RADAR_TREE: f32 = 0.3;
@@ -42,5 +42,7 @@ impl Plugin for RadarPlugin {
         app.add_systems(Update, update.run_if(on_timer(Duration::from_secs_f32(SCAN_EVERY))));
         app.add_systems(Update, draw_debug_circles);
         app.add_systems(Update, update_debug_config);
+
+        app.add_observer(on_radar_removed);
     }
 }
