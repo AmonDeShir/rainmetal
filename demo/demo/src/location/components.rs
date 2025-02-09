@@ -1,12 +1,11 @@
 use bevy::prelude::*;
 use bevy::utils::HashMap;
-use bevy_dogoap::prelude::*;
 use crate::storage::Storage;
 use crate::local_economy::LocalEconomy;
 use crate::memory::Memory;
 use crate::radar::TrackedByRadar;
 
-#[derive(Component, Clone, DatumComponent)]
+#[derive(Component, Clone)]
 pub struct Money(pub i64);
 
 impl Default for Money {

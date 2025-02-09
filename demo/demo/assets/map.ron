@@ -51,7 +51,7 @@ MapData (
                 }
             )
         )),
-        ((200, -100), Village (
+        ((200, -90), Village (
             LocationData (
                 name: "Oil Factory",
                 population: 10,

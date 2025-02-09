@@ -438,31 +438,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bevy-trait-query"
-version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e1c898c6d5d994be5439d4e330fc2247f88ea8c47c14af4dcd52b07e63ee9bcc"
-dependencies = [
- "bevy-trait-query-impl",
- "bevy_app",
- "bevy_core",
- "bevy_ecs",
- "tracing",
-]
-
-[[package]]
-name = "bevy-trait-query-impl"
-version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "76f5fabc231da7f9842ca16c0550ccbbd7ff0adac8e9a24fc79842eca3c11db6"
-dependencies = [
- "proc-macro-crate",
- "proc-macro2",
- "quote",
- "syn 2.0.98",
-]
-
-[[package]]
 name = "bevy_a11y"
 version = "0.15.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -676,17 +651,6 @@ dependencies = [
  "bevy_utils",
  "const-fnv1a-hash",
  "sysinfo",
-]
-
-[[package]]
-name = "bevy_dogoap"
-version = "0.4.0"
-dependencies = [
- "bevy",
- "bevy-trait-query",
- "dogoap",
- "dogoap_macros",
- "rand",
 ]
 
 [[package]]
@@ -2000,9 +1964,9 @@ version = "0.1.0"
 dependencies = [
  "bevy",
  "bevy-inspector-egui",
- "bevy_dogoap",
  "bevy_spatial",
  "num-traits",
+ "rainmetal_goap",
  "rand",
  "ron_asset_manager",
  "serde",
@@ -2069,24 +2033,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cb6969eaabd2421f8a2775cfd2471a2b634372b4a25d41e3bd647b79912850a0"
 dependencies = [
  "litrs",
-]
-
-[[package]]
-name = "dogoap"
-version = "0.4.0"
-dependencies = [
- "bevy_reflect",
- "log",
- "pathfinding",
-]
-
-[[package]]
-name = "dogoap_macros"
-version = "0.4.0"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 1.0.109",
 ]
 
 [[package]]
@@ -3943,6 +3889,25 @@ name = "radsort"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "019b4b213425016d7d84a153c4c73afb0946fbb4840e4eece7ba8848b9d6da22"
+
+[[package]]
+name = "rainmetal_goap"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+ "ordered-float",
+ "pathfinding",
+ "rainmetal_goap_macros",
+]
+
+[[package]]
+name = "rainmetal_goap_macros"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+]
 
 [[package]]
 name = "rand"

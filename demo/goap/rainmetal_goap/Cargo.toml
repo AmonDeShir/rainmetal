@@ -1,0 +1,11 @@
+[package]
+name = "rainmetal_goap"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[dependencies]
+bevy = "0.15.1"
+rainmetal_goap_macros = { path = "../rainmetal_goap_macros", version = "0.1.0" }
+pathfinding = "4.13.0"
+ordered-float = "4.6.0"

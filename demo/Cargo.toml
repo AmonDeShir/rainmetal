@@ -1,5 +1,5 @@
 [workspace]
-members = ["./dogoap/crates/bevy_dogoap", "./dogoap/crates/dogoap", "./dogoap/crates/dogoap_macros", "demo"]
+members = ["demo", "./goap/rainmetal_goap_macros", "./goap/rainmetal_goap"]
 resolver = "2"
 
 [profile.dev]

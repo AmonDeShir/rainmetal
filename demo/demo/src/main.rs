@@ -12,13 +12,13 @@ mod village;
 mod ai_trader;
 mod memory;
 mod radar;
+mod goap_inspector;
 
 use ai_driver::AiDriverPlugin;
 use bevy::input::common_conditions::input_toggle_active;
 use bevy::prelude::*;
 use bevy::remote::http::RemoteHttpPlugin;
 use bevy::remote::RemotePlugin;
-use bevy_dogoap::prelude::DogoapPlugin;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use driver::DriverPlugin;
 use local_economy::LocalEconomyPlugin;
@@ -43,8 +43,6 @@ fn main() {
         }),
         ..default()
     }));
-
-    app.add_plugins(DogoapPlugin);
 
     app.add_plugins(RemotePlugin::default());
     app.add_plugins(RemoteHttpPlugin::default());

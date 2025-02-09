@@ -11,6 +11,9 @@
       <sourceFolder url="file://$MODULE_DIR$/dogoap/crates/dogoap/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/dogoap/crates/dogoap/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/dogoap/crates/dogoap_macros/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/goap/rainmetal_goap/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/goap/rainmetal_goap_macros/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/goap/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/dogoap/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
