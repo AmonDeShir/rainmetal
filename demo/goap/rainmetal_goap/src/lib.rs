@@ -4,3 +4,4 @@ mod goal;
 mod state;
 pub mod prelude;
 mod distance;
+mod ordered;

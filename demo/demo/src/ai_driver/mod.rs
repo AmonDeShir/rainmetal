@@ -7,7 +7,7 @@ use bevy::prelude::*;
 use bevy::time::common_conditions::on_timer;
 pub use components::*;
 use crate::ai_driver::goap::setup_driver_ai;
-use crate::ai_driver::systems::{collect_rent, force_ai_travel, travel_to_destination};
+use crate::ai_driver::systems::{collect_rent, travel_to_destination};
 use crate::ai_driver::goap::*;
 
 pub const SPEED: f32 = 1.0;
@@ -32,8 +32,8 @@ impl Plugin for AiDriverPlugin {
         app.add_systems(Update, update_state_fuel);
         app.add_systems(Update, update_state_money);
 
-        app.add_systems(Update, handle_go_to_near_city_action);
-        app.add_observer(handle_go_to_near_city_action_finish);
+        app.add_systems(Update, handle_go_to_fuel_station_action);
+        app.add_observer(handle_go_to_fuel_station_action_finish);
         app.add_systems(Update, handle_refuel_action);
         app.add_systems(Update, handle_exit_city_action);
         app.add_systems(Update, handle_discover_action);

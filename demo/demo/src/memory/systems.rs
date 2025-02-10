@@ -1,5 +1,5 @@
 use super::*;
-use crate::radar::{EnterRadioTransmissionRadius, ExitRadioTransmissionRadius, TrackedByRadar};
+use crate::radar::{EnterRadioTransmissionRadius, ExitRadioTransmissionRadius};
 use bevy::prelude::*;
 use bevy::utils::HashMap;
 use std::hash::Hash;

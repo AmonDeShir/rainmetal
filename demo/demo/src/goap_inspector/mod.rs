@@ -8,12 +8,13 @@ use bevy_inspector_egui::egui::Ui;
 use rainmetal_goap::prelude::*;
 
 pub trait DebugPlannerState {
-    fn show_egui(&self, ui: &mut Ui);
+    fn show_egui(&self, names: &Query<&Name>, ui: &mut Ui);
 }
 
 pub fn ui_show_ai_plans<S: PlannerState + DebugPlannerState>(
     mut contexts: EguiContexts,
     planners: Query<(&Name, &Planner<S>, &S), With<Picked>>,
+    names: Query<&Name>,
 ) {
     let Ok((name, planner, state)) = planners.get_single() else {
         return
@@ -70,7 +71,7 @@ pub fn ui_show_ai_plans<S: PlannerState + DebugPlannerState>(
                         .default_open(false)
                         .show(ui, |ui| {
                             for action in planner.all_actions.iter() {
-                                display_action(action, state, ui);
+                                display_action(action, &names, state, ui);
                             }
                         });
                 });
@@ -78,7 +79,7 @@ pub fn ui_show_ai_plans<S: PlannerState + DebugPlannerState>(
             CollapsingHeader::new("State")
                 .default_open(false)
                 .show(ui, |ui| {
-                    state.show_egui(ui);
+                    state.show_egui(&names, ui);
                 });
         });
 }
@@ -113,7 +114,7 @@ fn display_goal<S: PlannerState>(goal: &Goal<S>, state: &S, ui: &mut Ui) {
         });
 }
 
-fn display_action<S: PlannerState + DebugPlannerState>(action: &Action<S>, state: &S, ui: &mut Ui) {
+fn display_action<S: PlannerState + DebugPlannerState>(action: &Action<S>, names: &Query<&Name>, state: &S, ui: &mut Ui) {
     let preconditions = (action.preconditions)(state);
     let cost = (action.cost)(state);
     let effect = (action.effect)(state.clone());
@@ -139,7 +140,7 @@ fn display_action<S: PlannerState + DebugPlannerState>(action: &Action<S>, state
             CollapsingHeader::new("Effect")
                 .default_open(false)
                 .show(ui, |ui| {
-                    effect.show_egui(ui);
+                    effect.show_egui(names, ui);
                 });
         });
 }

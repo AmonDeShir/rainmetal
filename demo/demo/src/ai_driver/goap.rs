@@ -13,7 +13,7 @@ use bevy_inspector_egui::egui::Ui;
 use crate::goap_inspector::{ui_show_ai_plans, DebugPlannerState};
 
 #[derive(Component, Clone, Default, ActionComponent)]
-pub struct GoToNearCityAction(ActionState);
+pub struct GoToFuelStation(ActionState);
 
 #[derive(Component, Clone, Default, ActionComponent)]
 pub struct DiscoverAction(ActionState);
@@ -30,9 +30,6 @@ pub struct EarnMoneyAction(ActionState);
 #[derive(Component)]
 pub struct WorkTimer(Timer);
 
-#[derive(Component, Clone)]
-pub struct InsideCity(pub Entity);
-
 impl Default for WorkTimer {
     fn default() -> Self {
         Self(Timer::from_seconds(10.0, TimerMode::Once))
@@ -41,19 +38,39 @@ impl Default for WorkTimer {
 
 #[derive(Clone, Default, Eq, Hash, PartialEq, Debug, Component, PlannerState)]
 pub struct State {
-    fuel_cost: i64,
+    fuel_cost: Option<i64>,
     money: i64,
     fuel: OrderedFloat<f64>,
-    know_any_location: bool,
     know_all_locations: bool,
-    inside_city: bool,
+    fuel_station: Option<Entity>,
+    inside_city: Option<Entity>,
+}
+
+impl State {
+    pub fn has_money(&self, price: &Option<i64>) -> bool {
+        Some(self.money) >= *price
+    }
+
+    pub fn inside_city(&self, location: &Option<Entity>) -> bool {
+        self.inside_city.is_some() && self.inside_city == *location
+    }
 }
 
 impl DebugPlannerState for State {
-    fn show_egui(&self, ui: &mut Ui) {
+    fn show_egui(&self, names: &Query<&Name>, ui: &mut Ui) {
+        let fuel_station = self.fuel_station
+            .map(|station| names.get(station).ok())
+            .flatten()
+            .map_or("None".to_string(), |name| name.to_string());
+
+        let inside_city = self.inside_city
+            .map(|city| names.get(city).ok())
+            .flatten()
+            .map_or("None".to_string(), |name| name.to_string());
+
         ui.horizontal(|ui| {
             ui.label("Fuel Cost");
-            ui.label(&self.fuel_cost.to_string());
+            ui.label(&self.fuel_cost.map_or("None".to_string(), |fuel_cost| fuel_cost.to_string()));
         });
 
         ui.horizontal(|ui| {
@@ -67,8 +84,8 @@ impl DebugPlannerState for State {
         });
 
         ui.horizontal(|ui| {
-            ui.label("Know Any Location");
-            ui.label(&self.know_any_location.to_string());
+            ui.label("Fuel Station");
+            ui.label(&fuel_station);
         });
 
         ui.horizontal(|ui| {
@@ -78,7 +95,7 @@ impl DebugPlannerState for State {
 
         ui.horizontal(|ui| {
             ui.label("Inside City");
-            ui.label(&self.inside_city.to_string());
+            ui.label(&inside_city);
         });
     }
 }
@@ -87,12 +104,12 @@ pub fn update_state_memory(mut query: Query<(&mut State, &Transform, &Memory), C
     for (mut state, transform, memory) in query.iter_mut() {
         let near_station = memory.nearest_location_with(&transform.translation, Box::new(|location| location.storage.quantity("fuel") > 0));
 
-        if let Some((station, _)) = near_station {
-            state.fuel_cost = station.prices.sell_price("fuel") as i64;
+        if let Some((station, entity)) = near_station {
+            state.fuel_cost = Some(station.prices.sell_price("fuel") as i64);
+            state.fuel_station = Some(entity);
         }
 
         state.know_all_locations = memory.locations.len() == locations.iter().len();
-        state.know_any_location = memory.locations.len() > 0;
     }
 }
 
@@ -132,27 +149,27 @@ pub fn setup_driver_ai(query: Query<(Entity, &Money, &Fuel), Added<AiDriver>>, m
 
         let refuel_action = RefuelAction::new::<State>()
             .with_effect(Arc::new(|mut s| { s.fuel += 1.0; s }))
-            .with_precondition(Arc::new(|s| s.inside_city && s.money >= s.fuel_cost))
+            .with_precondition(Arc::new(|s| s.inside_city(&s.fuel_station) && s.has_money(&s.fuel_cost)))
             .with_static_cost(1);
 
-        let go_to_near_city_action = GoToNearCityAction::new::<State>()
-            .with_effect(Arc::new(|mut s| { s.inside_city = true; s }))
-            .with_precondition(Arc::new(|s| !s.inside_city && s.know_any_location))
+        let go_to_fuel_station = GoToFuelStation::new::<State>()
+            .with_effect(Arc::new(|mut s| { s.inside_city = s.fuel_station; s }))
+            .with_precondition(Arc::new(|s| s.inside_city.is_none() && s.fuel_station.is_some()))
             .with_static_cost(2);
 
         let exit_city_action = ExitCityAction::new::<State>()
-            .with_effect(Arc::new(|mut s| { s.inside_city = false; s }))
-            .with_precondition(Arc::new(|s| s.inside_city))
+            .with_effect(Arc::new(|mut s| { s.inside_city = None; s }))
+            .with_precondition(Arc::new(|s| s.inside_city.is_some()))
             .with_static_cost(1);
 
         let discover_action = DiscoverAction::new::<State>()
-            .with_effect(Arc::new(|mut s| { s.know_any_location = true; s.know_all_locations = true; s }))
-            .with_precondition(Arc::new(|s| !s.know_all_locations && !s.inside_city))
+            .with_effect(Arc::new(|mut s| { s.fuel_station = Some(Entity::PLACEHOLDER); s.know_all_locations = true; s }))
+            .with_precondition(Arc::new(|s| !s.know_all_locations && s.inside_city.is_none()))
             .with_static_cost(10);
 
         let earn_money_action = EarnMoneyAction::new::<State>()
             .with_effect(Arc::new(|mut s| { s.money += 50; s }))
-            .with_precondition(Arc::new(|s| s.inside_city))
+            .with_precondition(Arc::new(|s| s.inside_city.is_some()))
             .with_static_cost(9);
 
         let planner = Planner::new(
@@ -160,17 +177,17 @@ pub fn setup_driver_ai(query: Query<(Entity, &Money, &Fuel), Added<AiDriver>>, m
             vec![
                 (Arc::new(DiscoverAction::default()), discover_action),
                 (Arc::new(RefuelAction::default()), refuel_action),
-                (Arc::new(GoToNearCityAction::default()), go_to_near_city_action),
+                (Arc::new(GoToFuelStation::default()), go_to_fuel_station),
                 (Arc::new(ExitCityAction::default()), exit_city_action),
                 (Arc::new(EarnMoneyAction::default()), earn_money_action),
             ]
         );
 
         let state = State {
-            fuel_cost: 10,
+            fuel_cost: None,
             know_all_locations: false,
-            know_any_location: false,
-            inside_city: false,
+            fuel_station: None,
+            inside_city: None,
             fuel: OrderedFloat::from(fuel.0),
             money: money.0,
         };
@@ -179,16 +196,20 @@ pub fn setup_driver_ai(query: Query<(Entity, &Money, &Fuel), Added<AiDriver>>, m
     }
 }
 
-pub fn handle_go_to_near_city_action(
+pub fn handle_go_to_fuel_station_action(
     mut commands: Commands,
-    query: Query<(Entity, &Memory, &Transform), (With<AiDriver>, Without<AiDriverDestination>, With<GoToNearCityAction>)>
+    query: Query<(Entity, &Memory, &State), (With<AiDriver>, Without<AiDriverDestination>, With<GoToFuelStation>)>
 ) {
-    for (entity, memory, transform) in query.iter() {
-        let Some((location, _)) = memory.nearest_location(&transform.translation) else {
-            continue;
+    for (entity, memory, state) in query.iter() {
+        let Some(station) = state.fuel_station else {
+            continue
         };
 
-        commands.entity(entity).insert(AiDriverDestination(location.position.xy()));
+        let Some(data) = memory.locations.get(&station) else {
+            continue
+        };
+
+        commands.entity(entity).insert(AiDriverDestination(data.value.position.xy()));
     }
 }
 
@@ -197,32 +218,34 @@ pub fn handle_exit_city_action(
     mut query: Query<(Entity, &mut State), (With<AiDriver>, With<ExitCityAction>)>,
 ) {
     for (entity, mut state) in query.iter_mut() {
-        state.inside_city = false;
-        commands.entity(entity).remove::<InsideCity>();
+        state.inside_city = None;
         commands.entity(entity).remove::<ExitCityAction>();
     }
 }
 
-pub fn handle_go_to_near_city_action_finish(
+pub fn handle_go_to_fuel_station_action_finish(
     trigger: Trigger<OnRemove, AiDriverDestination>,
-    mut query: Query<(&Memory, &Transform, &mut State), (With<AiDriver>, With<GoToNearCityAction>)>,
+    mut query: Query<(&Transform, &Memory, &mut State), (With<AiDriver>, With<GoToFuelStation>)>,
     mut commands: Commands
 ) {
-    let Ok((memory, transform, mut state)) = query.get_mut(trigger.entity()) else {
+    let Ok((transform, memory, mut state)) = query.get_mut(trigger.entity()) else {
         return
     };
 
-    let Some((location, city)) = memory.nearest_location(&transform.translation) else {
+    let Some(station) = state.fuel_station else {
+        return
+    };
+
+    let Some(data) = memory.locations.get(&station) else {
         return;
     };
 
-    if location.position.xy().distance(transform.translation.xy()) <= 0.5 {
-        state.inside_city = true;
-        commands.entity(trigger.entity()).insert(InsideCity(city));
-        commands.entity(trigger.entity()).remove::<GoToNearCityAction>();
+    if data.value.position.xy().distance(transform.translation.xy()) <= 0.5 {
+        state.inside_city = Some(station);
+        commands.entity(trigger.entity()).remove::<GoToFuelStation>();
     }
     else {
-        commands.entity(trigger.entity()).insert(AiDriverDestination(location.position.xy()));
+        commands.entity(trigger.entity()).insert(AiDriverDestination(data.value.position.xy()));
     }
 }
 
@@ -242,28 +265,19 @@ pub fn handle_discover_action(
 
 pub fn handle_discover_action_finish(
     trigger: Trigger<OnRemove, AiDriverDestination>,
-    mut query: Query<(&Memory, &mut State), (With<AiDriver>, With<DiscoverAction>)>,
+    query: Query<&State, (With<AiDriver>, With<DiscoverAction>)>,
     locations: Query<&Transform, With<Location>>,
     mut commands: Commands
 ) {
-    let Ok((memory, mut state)) = query.get_mut(trigger.entity()) else {
+    let Ok(state) = query.get(trigger.entity()) else {
         return
     };
 
-    let know_locations = memory.locations.iter().count();
-
-    if know_locations > 0 {
-        state.know_any_location = true;
-    }
-
-    if know_locations >= locations.iter().count() {
-        state.know_all_locations = true;
+    if state.know_all_locations {
         commands.entity(trigger.entity()).remove::<DiscoverAction>();
         return;
     }
     else {
-        state.know_all_locations = false;
-
         let Some(target) = locations.iter().choose(&mut thread_rng()) else {
             return
         };
@@ -274,11 +288,15 @@ pub fn handle_discover_action_finish(
 
 pub fn handle_refuel_action(
     mut commands: Commands,
-    mut query: Query<(Entity, &mut Fuel, &mut Money, &InsideCity), (With<AiDriver>, With<RefuelAction>)>,
+    mut query: Query<(Entity, &mut Fuel, &mut Money, &State), (With<AiDriver>, With<RefuelAction>)>,
     mut cities: Query<(&mut Storage, &mut Money, &LocalEconomy), (With<Location>, Without<AiDriver>)>
 ) {
-    for (npc, mut fuel, mut money, InsideCity(city)) in query.iter_mut() {
-        let Ok((mut city_storage, mut city_money, city_economy)) = cities.get_mut(*city) else {
+    for (npc, mut fuel, mut money, state) in query.iter_mut() {
+        let Some(city) = state.inside_city else {
+            continue
+        };
+
+        let Ok((mut city_storage, mut city_money, city_economy)) = cities.get_mut(city) else {
             continue
         };
 
