@@ -1,3 +1,5 @@
+extern crate core;
+
 mod ai_driver;
 mod driver;
 mod inspector;
@@ -26,6 +28,7 @@ use location::LocationPlugin;
 use map::MapPlugin;
 use crate::ai_trader::AiTraderPlugin;
 use crate::memory::MemoryPlugin;
+use crate::picking::PickingPlugin;
 use crate::radar::RadarPlugin;
 use crate::storage::StoragePlugin;
 
@@ -50,6 +53,7 @@ fn main() {
         WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::KeyI)),
     );
 
+    app.add_plugins(PickingPlugin);
     app.add_plugins(LocationPlugin);
     app.add_plugins(StoragePlugin);
     app.add_plugins(MapPlugin);

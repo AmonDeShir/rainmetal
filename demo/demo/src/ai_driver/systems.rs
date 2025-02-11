@@ -1,16 +1,7 @@
-use crate::picking::Picked;
-
 use super::*;
 use crate::driver::Fuel;
-use bevy::{prelude::*, window::PrimaryWindow};
+use bevy::prelude::*;
 use components::{AiDriver, AiDriverDestination};
-use crate::location::Money;
-
-pub fn collect_rent(mut query: Query<&mut Money, With<AiDriver>>) {
-    for mut money in query.iter_mut() {
-        money.0 -= RENT_COST_MONTHLY;
-    }
-}
 
 pub fn travel_to_destination(
     time: Res<Time>,
@@ -42,40 +33,4 @@ pub fn travel_to_destination(
             commands.entity(entity).remove::<AiDriverDestination>();
         }
     }
-}
-
-pub fn force_ai_travel(
-    _: Trigger<Pointer<Up>>,
-    windows: Query<&Window, With<PrimaryWindow>>,
-    mut commands: Commands,
-    query: Query<Entity, (With<AiDriver>, With<Picked>)>,
-    camera: Query<(&Camera, &GlobalTransform)>,
-) {
-    let Ok((camera, transform)) = camera.get_single() else {
-        return;
-    };
-
-    let Some(cursor_position) = cursor_position(windows.get_single(), &camera, transform) else {
-        return;
-    };
-
-    let Ok(entity) = query.get_single() else {
-        return;
-    };
-
-    commands
-        .entity(entity)
-        .insert(AiDriverDestination(cursor_position));
-}
-
-fn cursor_position<T>(
-    window: Result<&Window, T>,
-    camera: &Camera,
-    camera_transform: &GlobalTransform,
-) -> Option<Vec2> {
-    window
-        .ok()
-        .and_then(|window| window.cursor_position())
-        .and_then(|pos| camera.viewport_to_world(camera_transform, pos).ok())
-        .map(|ray| ray.origin.truncate())
 }

@@ -3,7 +3,7 @@ use crate::radar::{EnterRadioTransmissionRadius, ExitRadioTransmissionRadius};
 use bevy::prelude::*;
 use bevy::utils::HashMap;
 use std::hash::Hash;
-use crate::location::Location;
+use crate::location::{Location, Money};
 use crate::ai_driver::AiDriverDestination;
 use crate::driver::Driver;
 use crate::local_economy::LocalEconomy;
@@ -58,16 +58,28 @@ pub fn share_memory_on_exit(trigger: Trigger<ExitRadioTransmissionRadius>, mut q
     share_memory_map(&mut target.characters, &source.characters);
 }
 
-pub fn init_city_memory(mut query: Query<(&mut Memory, Entity, &LocalEconomy, &Storage, &Transform), (With<Location>, Added<Memory>)>, time: Res<Time>) {
-    for (mut memory, entity, economy, storage, transform) in query.iter_mut() {
+pub fn init_city_memory(mut query: Query<(&mut Memory, Entity, &Money, &LocalEconomy, &Storage, &Transform), (With<Location>, Added<Memory>)>, time: Res<Time>) {
+    for (mut memory, entity, money, economy, storage, transform) in query.iter_mut() {
         memory.locations.insert(
             entity.clone(),
             Memo::new(LocationData {
                 storage: storage.clone(),
                 position: transform.translation.clone(),
                 prices: economy.clone(),
+                money: money.0 as u64,
             }, time.elapsed_secs())
         );
+    }
+}
+
+pub fn update_location_money_memory(mut query: Query<(&mut Memory, Entity, &Money), (With<Location>, Changed<Money>)>, time: Res<Time>) {
+    for (mut memory, entity, money) in query.iter_mut() {
+        let Some(memo) = memory.locations.get_mut(&entity) else {
+            continue
+        };
+
+        memo.time = time.elapsed_secs();
+        memo.value.money = money.0 as u64;
     }
 }
 

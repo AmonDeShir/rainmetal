@@ -1,5 +1,6 @@
 mod inspector;
 
+use std::hash::{Hash, Hasher};
 use bevy::prelude::*;
 use bevy::utils::HashMap;
 use inspector::{ui_init, ui_show_items};
@@ -22,9 +23,18 @@ pub struct ItemList {
 #[derive(Resource, Default)]
 pub struct ItemListHandle(pub Handle<ItemList>);
 
-#[derive(Component, Clone)]
+#[derive(Component, Clone, Eq, PartialEq, Debug)]
 pub struct Storage {
     pub items: HashMap<String, i32>,
+}
+
+impl Hash for Storage  {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        for (key, value) in self.items.iter() {
+            key.hash(state);
+            value.hash(state);
+        }
+    }
 }
 
 impl Default for Storage {
@@ -49,13 +59,23 @@ impl ItemContainer for Storage {
         self.items.get(name).cloned().unwrap_or(0)
     }
 
-    fn set(&mut self, name: &str, quantity: i32) {
-        self.items.insert(name.to_string(), quantity);
+    fn add(&mut self, name: &str, quantity: i32) {
+        self.set(name, self.quantity(name) + quantity);
     }
 
 
-    fn add(&mut self, name: &str, quantity: i32) {
-        self.set(name, self.quantity(name) + quantity);
+    fn remove(&mut self, name: &str, quantity: i32, force: bool) -> Option<()> {
+        if self.quantity(name) > 0 || force {
+            self.set(name, (self.quantity(name) - quantity).max(0));
+
+            return Some(());
+        }
+
+        None
+    }
+
+    fn set(&mut self, name: &str, quantity: i32) {
+        self.items.insert(name.to_string(), quantity);
     }
 
     fn add_one(&mut self, name: &str) {
@@ -71,15 +91,21 @@ impl ItemContainer for Storage {
 
         None
     }
+}
 
-    fn remove(&mut self, name: &str, quantity: i32, force: bool) -> Option<()> {
-        if self.quantity(name) > 0 || force {
-            self.set(name, (self.quantity(name) - quantity).max(0));
+impl Storage {
+    pub fn find_most_common(&self) -> Option<String> {
+        let mut most_common = None;
+        let mut most_common_count = 0;
 
-            return Some(());
+        for (item, count) in self.items.iter() {
+            if count > &most_common_count {
+                most_common_count = *count;
+                most_common = Some(item.clone());
+            }
         }
 
-        None
+        most_common
     }
 }
 

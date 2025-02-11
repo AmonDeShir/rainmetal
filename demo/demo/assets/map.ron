@@ -5,25 +5,25 @@ MapData (
        ((-126, 97), Town (
             LocationData (
                 name: "Sowth",
-                population: 210,
-                money: 10000,
+                population: 25,
+                money: 20000,
                 image: "images/town.png",
                 storage: {
                     "food": 300,
                     "wood": 100,
-                    "fuel": 10000,
+                    "fuel": 500,
                 },
                 consumption: {
-                    "food": 3.0,
-                    "fuel": 15.0,
-                    "beer": 0.5,
+                    "food": 1.5,
+                    "fuel": 3.0,
+                    "beer": 0.4,
                 },
                 production: {
-                    "wood": 100,
+                    "wood": 50,
                 },
                 surplus_factor: {
-                    "food": 1.5,
-                    "bear": 1.5,
+                    "food": 2.0,
+                    "beer": 2.0,
                     "fuel": 2.0,
                 }
             )
@@ -31,27 +31,27 @@ MapData (
         ((180, 170), Village (
             LocationData (
                 name: "Glukhoe",
-                population: 10,
-                money: 500,
+                population: 5,
+                money: 2000,
                 image: "images/village.png",
                 storage: {
                     "food": 500,
                     "wood": 50,
-                    "fuel": 5000,
+                    "fuel": 500,
                 },
                 production: {
-                    "food": 150,
+                    "food": 100,
                 },
                 consumption: {
-                    "food": 3.0,
-                    "fuel": 15.0,
-                    "wood": 0.5,
-                    "beer": 0.5,
+                    "food": 1.5,
+                    "fuel": 3.5,
+                    "wood": 1.0,
+                    "beer": 0.25,
                 },
                 surplus_factor: {
-                    "food": 1.5,
-                    "bear": 1.25,
-                    "wood": 1.25,
+                    "food": 2.0,
+                    "beer": 2.0,
+                    "wood": 2.0,
                     "fuel": 2.0,
                 }
             )
@@ -59,48 +59,50 @@ MapData (
         ((150, -90), Village (
             LocationData (
                 name: "Troyitsk",
-                population: 12,
-                money: 500,
+                population: 6,
+                money: 2000,
                 image: "images/village.png",
                 storage: {
                     "food": 500,
-                    "fuel": 5000,
+                    "fuel": 1000,
                 },
                 production: {
-                    "fuel": 300,
+                    "fuel": 100,
                 },
                 consumption: {
-                    "food": 3.0,
-                    "beer": 0.5,
+                    "food": 2.0,
+                    "beer": 0.25,
+                    "wood": 0.5,
                 },
                 surplus_factor: {
-                    "food": 1.5,
-                    "bear": 1.25,
-                    "fuel": 2.0,
+                    "food": 2.0,
+                    "beer": 2.0,
+                    "wood": 2.0,
                 }
             )
         )),
         ((130, -200), Village (
             LocationData (
                 name: "Gugulino",
-                population: 8,
-                money: 500,
+                population: 4,
+                money: 2000,
                 image: "images/village.png",
                 storage: {
                     "food": 500,
                     "fuel": 300,
                 },
                 production: {
-                    "food": 100,
+                    "food": 50,
                 },
                 consumption: {
-                    "food": 2.0,
-                    "beer": 0.5,
-                    "fuel": 14.0,
+                    "food": 1.0,
+                    "beer": 0.25,
+                    "wood": 1.0,
+                    "fuel": 6.0,
                 },
                 surplus_factor: {
-                    "food": 1.5,
-                    "bear": 1.25,
+                    "food": 2.0,
+                    "beer": 2.0,
                     "fuel": 2.0,
                 }
             )
@@ -109,24 +111,24 @@ MapData (
             LocationData (
                 name: "Zaimka",
                 population: 6,
-                money: 500,
+                money: 2000,
                 image: "images/village.png",
                 storage: {
                     "food": 500,
                     "fuel": 300,
                 },
                 production: {
-                    "beer": 100,
+                    "beer": 50,
                 },
                 consumption: {
                     "food": 3.0,
                     "beer": 0.5,
-                    "wood": 0.5,
+                    "wood": 3.0,
                     "fuel": 15.0,
                 },
                 surplus_factor: {
-                    "food": 1.5,
-                    "wood": 1.25,
+                    "food": 2.0,
+                    "wood": 2.0,
                     "fuel": 2.0,
                 }
             )
@@ -150,12 +152,57 @@ MapData (
         )),
 
         ((130, 130), Driver (
-        DriverData (
-            name: "Makkak",
-            money: 50,
-            fuel: 100.0,
-            image: "images/arrow.png",
-        )
+            DriverData (
+                name: "Makkak",
+                money: 50,
+                fuel: 100.0,
+                image: "images/arrow.png",
+            )
+        )),
+
+        ((0, 0), Driver (
+            DriverData (
+                name: "Panda",
+                money: 50,
+                fuel: 100.0,
+                image: "images/arrow.png",
+            )
+        )),
+
+        ((-126, 97), Driver (
+            DriverData (
+                name: "Tractor",
+                money: 100,
+                fuel: 50.0,
+                image: "images/arrow.png",
+            )
+        )),
+
+        ((-126, 98), Driver (
+            DriverData (
+                name: "Felix",
+                money: 100,
+                fuel: 300.0,
+                image: "images/arrow.png",
+            )
+        )),
+
+        ((-126, 98), Driver (
+            DriverData (
+                name: "Alex",
+                money: 100,
+                fuel: 200.0,
+                image: "images/arrow.png",
+            )
+        )),
+
+        ((-126, 100), Driver (
+            DriverData (
+                name: "Alice",
+                money: 100,
+                fuel: 80.0,
+                image: "images/arrow.png",
+            )
         )),
     ]
 )

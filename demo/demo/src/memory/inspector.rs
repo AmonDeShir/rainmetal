@@ -46,6 +46,11 @@ pub fn ui_show_memory(
                                     ));
                                 });
 
+                                ui.horizontal(|ui| {
+                                    ui.label("Money");
+                                    ui.label(memo.value.money.to_string());
+                                });
+
                                 show_item_list("Sell Prices", &memo.value.prices.sell_price, ui);
                                 show_item_list("Buy Prices", &memo.value.prices.buy_price, ui);
                                 show_item_list("Storage", &memo.value.storage.items, ui);

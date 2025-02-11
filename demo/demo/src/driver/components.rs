@@ -3,8 +3,6 @@ use bevy::prelude::*;
 use crate::radar::TrackedByRadar;
 use crate::memory::Memory;
 
-pub const MAX_STORAGE_CAPACITY: usize = 32;
-
 #[derive(Component, Clone)]
 pub struct Fuel(pub f64);
 

@@ -1,6 +1,8 @@
+mod inspector;
+
 use std::fmt::Debug;
 use bevy::prelude::*;
-
+use crate::picking::inspector::ui_show_items;
 
 #[derive(Component, Reflect)]
 pub struct Picked;
@@ -11,6 +13,7 @@ pub struct PickingPlugin;
 impl Plugin for PickingPlugin {
     fn build(&self, app: &mut App) {
         app.register_type::<Picked>();
+        app.add_systems(Update, ui_show_items);
     }
 }
 

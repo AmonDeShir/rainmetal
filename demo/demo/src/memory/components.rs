@@ -31,6 +31,7 @@ pub struct CharacterData {
 pub struct LocationData {
     pub prices: LocalEconomy,
     pub position: Vec3,
+    pub money: u64,
     pub storage: Storage,
 }
 
@@ -56,9 +57,5 @@ impl Memory {
         }
 
         result
-    }
-
-    pub fn nearest_location(&self, position: &Vec3) -> Option<(&LocationData, Entity)> {
-        self.nearest_location_with(position, Box::new(|_| true))
     }
 }

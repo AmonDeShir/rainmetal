@@ -7,17 +7,17 @@ ItemList(
         ),
         "beer": ItemDefinition (
             name: "Beer",
-            price: 30,
+            price: 15,
             price_unstability: 0.5,
         ),
         "fuel": ItemDefinition (
             name: "Fuel",
-            price: 6,
+            price: 3,
             price_unstability: 0.5,
         ),
         "wood": ItemDefinition (
             name: "Wood",
-            price: 60,
+            price: 50,
             price_unstability: 0.5,
         ),
         "scrap": ItemDefinition (
