@@ -1,4 +1,6 @@
 # Rain Metal
+![431154225-d9aa63aa-c0bd-431d-9cec-79415e11793a](https://github.com/user-attachments/assets/00d23650-3eab-4832-8ca2-f9db4908ca0b)
+
 Welcome to Rain Metal, a co-op game inspired by the post-apocalyptic world of "Hard Truck: Apocalypse." Journey through a desolate landscape, customize your apocalypse-ready vehicle, and engage in battles with your friends.
 
 ## Installation
